@@ -6,7 +6,7 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 13:01:02 by smia              #+#    #+#             */
-/*   Updated: 2022/09/01 18:52:55 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/02 11:07:34 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ typedef struct collector
 
 typedef	struct Camera_Setup
 {
-	t_vec	orig;  // Camera origin (position)
+	t_vec		orig;  // Camera origin (position)
     double		viewport_h; // viewport length
     double		viewport_w; // viewport width
     t_vec		horizontal; // horizontal length vector
@@ -119,6 +119,23 @@ typedef	struct  s_canvas
     int     height; //canvas height;
     double  aspect_ratio;
 }	t_canvas;
+
+/* sphere  */
+
+typedef	struct  s_sphere
+    {
+        t_vec		center;
+        double      radius;
+        double      radius2;
+    }	t_sphere;
+
+/* sphere end */
+
+/*mlx func */
+
+void	my_mlx_pixel_put(img_data *data, int x, int y, int color);
+
+/* mlx funct end */
 
 t_CamRay	ray(t_vec orig, t_vec dir);
 t_vec		ray_at(t_CamRay *ray, double t);

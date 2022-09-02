@@ -1,6 +1,6 @@
 NAME=MiniRT
 CSRCS= main.c get_next_line.c allocation.c tools.c parse_element.c parse.c split.c  vector.c  Garbage_Collector.c \
-	camera.c
+	camera.c mlx_func.c
 CFLAGS= -Wall -Wextra -Werror
 CC= gcc
 
