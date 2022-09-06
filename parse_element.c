@@ -6,7 +6,7 @@
 /*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 03:21:29 by smia              #+#    #+#             */
-/*   Updated: 2022/08/30 13:29:32 by smia             ###   ########.fr       */
+/*   Updated: 2022/09/03 13:23:34 by smia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void    parse_ambient(t_scene *sc, char **tockens)
         ft_err("enter ambient lighting ratio in range [0.0,1.0]");
     sc->amb.col = get_color(tockens[2]);
 }
-
 
 void    parse_camera(t_scene *sc,char **tockens)
 {

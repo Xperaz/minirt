@@ -6,15 +6,15 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 13:01:02 by smia              #+#    #+#             */
-/*   Updated: 2022/09/02 11:07:34 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/06 16:01:47 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# define WIDTH 700
-# define HEIGHT 500
+# define WIDTH 1200
+# define HEIGHT 1000
 # define CY 1
 # define PL 2
 # define SP 3
@@ -24,7 +24,6 @@
 # include <fcntl.h>
 # include <math.h>
 # include "mlx.h"
-//# include "camera/camera.h"
 
 /* img info struct */
 
@@ -38,51 +37,51 @@ typedef struct	s_data {
 
 typedef struct  s_vec
 {
-	double  x;
-	double  y;
-	double  z;
+    double  x;
+    double  y;
+    double  z;
 }               t_vec;
 
 typedef struct  t_cam
 {
-	t_vec   cen;
-	t_vec   dir;
-	double  fov;
-	int     count;
+    t_vec   cen;
+    t_vec   dir;
+    double  fov;
+    int     count;
 }               t_cam;
 
 typedef struct  s_light
 {
-	t_vec   src;
-	double  ratio;
-	int     count;
+    t_vec   src;
+    double  ratio;
+    int     count;
 }               t_light;
 
 typedef struct s_amb
 {
-	t_vec   col;
-	double  ratio;
-	int     count;
+    t_vec   col;
+    double  ratio;
+    int     count;
 }   t_amb;
 
 typedef struct  s_objs
 {
-	int             type;
-	t_vec           cen;
-	t_vec           dir;
-	t_vec           p;
-	t_vec           col;
-	t_vec           norm;
-	struct s_objs   *next;
+    int             type;
+    t_vec           cen;
+    t_vec           dir;
+    t_vec           p;
+    t_vec           col;
+    t_vec           norm;
+    struct s_objs   *next;
 }               t_objs;
 
 typedef struct s_scene
 {
-	t_vec       col;
-	t_cam       cam;
-	t_light     light;
-	t_amb       amb;
-	t_objs      *objs;
+    t_vec       col;
+    t_cam       cam;
+    t_light     light;
+    t_amb       amb;
+    t_objs      *objs;
 }               t_scene;
 
 typedef struct collector
@@ -90,62 +89,6 @@ typedef struct collector
 	void				*adr;
 	struct collector	*next;
 }	t_collector;
-
-
-/* camera */
-
-typedef	struct Camera_Setup
-{
-	t_vec		orig;  // Camera origin (position)
-    double		viewport_h; // viewport length
-    double		viewport_w; // viewport width
-    t_vec		horizontal; // horizontal length vector
-    t_vec		vertical; // vertical length vector
-    double		focal_len; // focal length
-    t_vec		left_bottom; // lower left corner
-	
-}	t_camera;
-
-typedef struct CamRay
-{
-	t_vec	origin;
-	t_vec	dir;
-	t_vec	m_ab;//vector from p1 to p2
-}	t_CamRay;
-
-typedef	struct  s_canvas
-{
-    int     width; //canvas width
-    int     height; //canvas height;
-    double  aspect_ratio;
-}	t_canvas;
-
-/* sphere  */
-
-typedef	struct  s_sphere
-    {
-        t_vec		center;
-        double      radius;
-        double      radius2;
-    }	t_sphere;
-
-/* sphere end */
-
-/*mlx func */
-
-void	my_mlx_pixel_put(img_data *data, int x, int y, int color);
-
-/* mlx funct end */
-
-t_CamRay	ray(t_vec orig, t_vec dir);
-t_vec		ray_at(t_CamRay *ray, double t);
-t_canvas	canvas(int  width, int height);
-t_camera	camera(t_canvas *canvas, t_vec origin);
-t_CamRay	ray_primary(t_camera *cam, double u, double v);
-t_vec		color(double r, double g, double b);
-t_vec		ray_color(t_CamRay *r);
-t_vec		make_vec(double x, double y, double z);
-/* camera end */
 
 // parse
 void	ft_err(char *err);
@@ -186,8 +129,61 @@ t_vec		add_vec(t_vec u, t_vec v);
 t_vec	    mult_vec(t_vec v, double a);
 t_vec		vect_cross(t_vec u, t_vec v);
 double	    dot_product(t_vec u, t_vec v);
-t_vec		div_vect(t_vec v, double a);
+double		module_v(t_vec	v);
+
+
+
+/* camera */
+
+typedef	struct Camera_Setup
+{
+	t_vec		orig;  // Camera origin (position)
+    double		viewport_h; // viewport length
+    double		viewport_w; // viewport width
+    t_vec		horizontal; // horizontal length vector
+    t_vec		vertical; // vertical length vector
+    double		focal_len; // focal length
+    t_vec		left_bottom; // lower left corner
+	
+}	t_camera;
+
+typedef struct CamRay
+{
+	t_vec	origin;
+	t_vec	dir;
+	t_vec	m_ab;//vector from p1 to p2
+}	t_CamRay;
+
+typedef	struct  s_canvas
+{
+    int     width; //canvas width
+    int     height; //canvas height;
+    double  aspect_ratio;
+}	t_canvas;
 
 // Intersection 
+double take_min(double x, double y);
+double find_inter(t_CamRay *ray, t_objs **objs);
+void	my_mlx_pixel_put(img_data *data, int x, int y, int color);
+double inter_sphere(t_CamRay *ray, t_objs *sp);
+double inter_plane(t_CamRay *ray, t_objs *pl);
+void    ft_render(t_scene *sc);
+
+/* mlx funct end */
+
+unsigned long createRGB(int r, int g, int b);
+
+/* camera functions */
+t_vec	    div_vect(t_vec v, double a);
+t_CamRay	ray(t_vec orig, t_vec dir);
+t_vec		ray_at(t_CamRay *ray, double t);
+t_canvas	canvas(int  width, int height);
+t_camera    camera(t_canvas *canvas, t_scene *sc);
+t_CamRay	ray_primary(t_camera *cam, double u, double v);
+t_vec		color(double r, double g, double b);
+t_vec		ray_color(t_CamRay *r, t_scene *sc);
+t_vec		make_vec(double x, double y, double z);
+
+
 
 #endif

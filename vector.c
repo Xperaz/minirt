@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 10:38:51 by smia              #+#    #+#             */
-/*   Updated: 2022/09/01 15:17:40 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/05 18:26:03 by smia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,6 @@ void	null_vec(t_vec *v)
 	v->x = 0;
 	v->y = 0;
 	v->z = 0;
-}
-
-t_vec	make_vec(double x, double y, double z)
-{
-	t_vec vec;
-
-	vec.x = x;
-	vec.y = y;
-	vec.z = z;
-	return (vec);
 }
 
 double	dot_product(t_vec u, t_vec v)
@@ -51,16 +41,6 @@ t_vec	mult_vec(t_vec v, double a)
 	v.z = v.z * a;
 	return (v);
 }
-
-t_vec	div_vect(t_vec v, double a)
-{
-	v.x /= a;
-	v.x /= a;
-	v.z /= a;
-
-	return (v);
-}
-
 
 t_vec		add_vec(t_vec u, t_vec v)
 {
@@ -113,4 +93,23 @@ t_vec		get_normalized(t_vec v)
 	v1 = v;
 	normalize(&v1);
 	return (v1);
+}
+
+t_vec	div_vect(t_vec v, double a)
+{
+	v.x /= a;
+	v.x /= a;
+	v.z /= a;
+
+	return (v);
+}
+
+t_vec	make_vec(double x, double y, double z)
+{
+	t_vec vec;
+
+	vec.x = x;
+	vec.y = y;
+	vec.z = z;
+	return (vec);
 }

@@ -6,11 +6,19 @@
 /*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 08:34:13 by smia              #+#    #+#             */
-/*   Updated: 2022/06/29 21:29:43 by smia             ###   ########.fr       */
+/*   Updated: 2022/09/03 13:18:39 by smia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+double take_min(double x, double y)
+{
+	if (x > y)
+		return y;
+	return (x);
+}
+
 
 double	ft_atod(const char *str)
 {
