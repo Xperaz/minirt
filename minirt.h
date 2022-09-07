@@ -6,7 +6,7 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 13:01:02 by smia              #+#    #+#             */
-/*   Updated: 2022/09/06 16:01:47 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/07 09:30:20 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,12 @@ typedef struct  t_cam
     t_vec   dir;
     double  fov;
     int     count;
+    double		viewport_h; // viewport length
+    double		viewport_w; // viewport width
+    t_vec		horizontal; // horizontal length vector
+    t_vec		vertical; // vertical length vector
+    double		focal_len; // focal length
+    t_vec		left_bottom; // lower left corner
 }               t_cam;
 
 typedef struct  s_light
@@ -135,17 +141,17 @@ double		module_v(t_vec	v);
 
 /* camera */
 
-typedef	struct Camera_Setup
-{
-	t_vec		orig;  // Camera origin (position)
-    double		viewport_h; // viewport length
-    double		viewport_w; // viewport width
-    t_vec		horizontal; // horizontal length vector
-    t_vec		vertical; // vertical length vector
-    double		focal_len; // focal length
-    t_vec		left_bottom; // lower left corner
+// typedef	struct Camera_Setup
+// {
+// 	t_vec		orig;  // Camera origin (position)
+//     double		viewport_h; // viewport length
+//     double		viewport_w; // viewport width
+//     t_vec		horizontal; // horizontal length vector
+//     t_vec		vertical; // vertical length vector
+//     double		focal_len; // focal length
+//     t_vec		left_bottom; // lower left corner
 	
-}	t_camera;
+// }	t_camera;
 
 typedef struct CamRay
 {
@@ -178,10 +184,10 @@ t_vec	    div_vect(t_vec v, double a);
 t_CamRay	ray(t_vec orig, t_vec dir);
 t_vec		ray_at(t_CamRay *ray, double t);
 t_canvas	canvas(int  width, int height);
-t_camera    camera(t_canvas *canvas, t_scene *sc);
-t_CamRay	ray_primary(t_camera *cam, double u, double v);
-t_vec		color(double r, double g, double b);
-t_vec		ray_color(t_CamRay *r, t_scene *sc);
+// t_camera    camera(t_canvas *canvas, t_scene *sc);
+// t_CamRay	ray_primary(t_camera *cam, double u, double v);
+// t_vec		color(double r, double g, double b);
+// t_vec		ray_color(t_CamRay *r, t_scene *sc);
 t_vec		make_vec(double x, double y, double z);
 
 
