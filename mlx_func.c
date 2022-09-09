@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_func.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 14:37:25 by smia              #+#    #+#             */
-/*   Updated: 2022/09/06 16:01:59 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/08 21:20:33 by smia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	my_mlx_pixel_put(img_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-unsigned long createRGB(int r, int g, int b)
+int createRGB(int r, int g, int b)
 {   
     return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
 }

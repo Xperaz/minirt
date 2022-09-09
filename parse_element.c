@@ -6,7 +6,7 @@
 /*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 03:21:29 by smia              #+#    #+#             */
-/*   Updated: 2022/09/03 13:23:34 by smia             ###   ########.fr       */
+/*   Updated: 2022/09/08 20:47:49 by smia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void    parse_sphere(t_scene *sc, char **tockens)
     
     if (!tockens || !tockens[1] || !tockens[2] || !tockens[3] || tockens[4])
         ft_err("invalid sphere");
-    obj = alloc_obj(&(sc->objs));
+    obj = alloc_obj(sc);
     obj->type = SP;
     obj->cen = get_vec(tockens[1]);
     obj->p.x = ft_atod(tockens[2]);
@@ -79,7 +79,7 @@ void    parse_cylinder(t_scene *sc, char **tockens)
     
     if (!tockens || !tockens[1] || !tockens[2] || !tockens[3] || !tockens[4] || !tockens[5] || tockens[6])
         ft_err("invalid cylinder");
-    obj = alloc_obj(&(sc->objs));
+    obj = alloc_obj(sc);
     obj->type = CY;
     obj->cen = get_vec(tockens[1]);
     obj->dir = get_vec(tockens[2]);
@@ -100,7 +100,7 @@ void    parse_plane(t_scene *sc, char **tockens)
     
     if (!tockens || !tockens[1] || !tockens[2] || !tockens[3] || tockens[4])
         ft_err("invalid plane!");
-    obj = alloc_obj(&(sc->objs));
+    obj = alloc_obj(sc);
     obj->type = PL;
     obj->cen = get_vec(tockens[1]);
     obj->dir = get_vec(tockens[2]);

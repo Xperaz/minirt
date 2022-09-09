@@ -6,15 +6,15 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 13:01:02 by smia              #+#    #+#             */
-/*   Updated: 2022/09/07 09:30:20 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/09 17:44:01 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# define WIDTH 1200
-# define HEIGHT 1000
+# define WIDTH 1920
+# define HEIGHT 1080
 # define CY 1
 # define PL 2
 # define SP 3
@@ -27,6 +27,8 @@
 
 /* img info struct */
 
+
+
 typedef struct	s_data {
 	void	*img;
 	char	*addr;
@@ -35,6 +37,11 @@ typedef struct	s_data {
 	int		endian;
 }				img_data;
 
+typedef struct	s_vars {
+	void	*mlx;
+	void	*win;
+}				t_vars;
+
 typedef struct  s_vec
 {
     double  x;
@@ -42,18 +49,19 @@ typedef struct  s_vec
     double  z;
 }               t_vec;
 
+typedef struct s_inter
+{
+    double  t;
+    t_vec   col;
+    t_vec   hit;
+}               t_inter;
+
 typedef struct  t_cam
 {
     t_vec   cen;
     t_vec   dir;
     double  fov;
     int     count;
-    double		viewport_h; // viewport length
-    double		viewport_w; // viewport width
-    t_vec		horizontal; // horizontal length vector
-    t_vec		vertical; // vertical length vector
-    double		focal_len; // focal length
-    t_vec		left_bottom; // lower left corner
 }               t_cam;
 
 typedef struct  s_light
@@ -110,7 +118,7 @@ void    parse_ambient(t_scene *sc, char **tockens);
 
 // allocation
 t_scene         *alloc_scence(void);
-t_objs          *alloc_obj(t_objs   **objs);
+t_objs          *alloc_obj(t_scene *sc);
 void	        ft_collect(t_collector **root, t_collector *node);
 void	        *ft_malloc(t_collector **root, size_t size);
 t_collector	    *root;
@@ -135,41 +143,32 @@ t_vec		add_vec(t_vec u, t_vec v);
 t_vec	    mult_vec(t_vec v, double a);
 t_vec		vect_cross(t_vec u, t_vec v);
 double	    dot_product(t_vec u, t_vec v);
-double		module_v(t_vec	v);
 
 
 
 /* camera */
 
-// typedef	struct Camera_Setup
-// {
-// 	t_vec		orig;  // Camera origin (position)
-//     double		viewport_h; // viewport length
-//     double		viewport_w; // viewport width
-//     t_vec		horizontal; // horizontal length vector
-//     t_vec		vertical; // vertical length vector
-//     double		focal_len; // focal length
-//     t_vec		left_bottom; // lower left corner
-	
-// }	t_camera;
+typedef	struct Camera_Setup
+{
+	t_vec		orig;  // Camera origin (position)
+    t_vec       up;
+    t_vec       right;
+    t_vec       forward;
+    double      height;
+    double      width;
+    double      aspect_r;
+    double      theta;
+}	t_camera;
 
 typedef struct CamRay
 {
 	t_vec	origin;
 	t_vec	dir;
-	t_vec	m_ab;//vector from p1 to p2
 }	t_CamRay;
-
-typedef	struct  s_canvas
-{
-    int     width; //canvas width
-    int     height; //canvas height;
-    double  aspect_ratio;
-}	t_canvas;
 
 // Intersection 
 double take_min(double x, double y);
-double find_inter(t_CamRay *ray, t_objs **objs);
+t_inter find_inter(t_CamRay *ray, t_scene *sc);
 void	my_mlx_pixel_put(img_data *data, int x, int y, int color);
 double inter_sphere(t_CamRay *ray, t_objs *sp);
 double inter_plane(t_CamRay *ray, t_objs *pl);
@@ -177,18 +176,13 @@ void    ft_render(t_scene *sc);
 
 /* mlx funct end */
 
-unsigned long createRGB(int r, int g, int b);
-
-/* camera functions */
-t_vec	    div_vect(t_vec v, double a);
-t_CamRay	ray(t_vec orig, t_vec dir);
-t_vec		ray_at(t_CamRay *ray, double t);
-t_canvas	canvas(int  width, int height);
-// t_camera    camera(t_canvas *canvas, t_scene *sc);
-// t_CamRay	ray_primary(t_camera *cam, double u, double v);
-// t_vec		color(double r, double g, double b);
-// t_vec		ray_color(t_CamRay *r, t_scene *sc);
-t_vec		make_vec(double x, double y, double z);
+t_vec	        div_vect(t_vec v, double a);
+// t_CamRay	    ray(t_vec orig, t_vec dir);
+// t_CamRay	    ray_primary(t_camera *cam, double u, double v);
+// t_vec		    color(double r, double g, double b);
+// t_vec		    ray_color(t_CamRay *r);
+t_vec		    make_vec(double x, double y, double z);
+int   createRGB(int r, int g, int b);
 
 
 

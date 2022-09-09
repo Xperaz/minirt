@@ -6,73 +6,68 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 14:21:47 by smia              #+#    #+#             */
-/*   Updated: 2022/09/07 13:45:58 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/09 17:53:57 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 // #include "camera.h"
 
-t_vec  *ft_vec3_multi_float(t_vec *target, float t, t_vec *v)
+int	handle_key(int key, t_vars *vars)
 {
-  target->x = v->x * t;
-  target->y = v->y * t;
-  target->z = v->z * t;
-  return (target);
+	if (key == 53)
+	{
+		mlx_destroy_window(vars->mlx, vars->win);
+		exit(0);
+	}
+	return (0);
 }
 
-t_vec  *ft_vec3_set_xyz(t_vec *target, float x, float y, float z)
+t_camera    set_camera(t_scene *sc)
 {
-	target->x = x;
-	target->y = y;
-	target->z = z;
-	return (target);
+    t_camera cam;
+
+    cam.aspect_r = (double) WIDTH / (double) HEIGHT;
+    
+    cam.theta = sc->cam.fov * M_PI / 180.0;
+    cam.height = tan(cam.theta / 2);
+    cam.width = cam.aspect_r * cam.height;
+    cam.forward = sc->cam.dir;
+    cam.up = get_normalized(vect_cross(cam.forward, make_vec(0.0,1.0,0.0)));
+    cam.right = get_normalized(vect_cross(cam.forward, cam.up));
+    return (cam);
 }
 
-t_vec *ft_vec3_unit_vec(t_vec *target, t_vec *v)
+t_CamRay       ray_primary(t_camera *cam, double v, double u)
 {
-	return (div_vect(*target, module_v(*v)), v);
+    t_CamRay   ray;
+    
+    ray.origin = cam->orig;
+
+    ray.dir = add_vec(add_vec(mult_vec(cam->up, v * cam->height), mult_vec(cam->right, u * cam->width)),cam->forward);
+    ray.dir = get_normalized(ray.dir);
+    return (ray);
 }
 
-t_CamRay    *ft_ray_set(t_CamRay *target, t_vec origin, t_vec direction)
+double	hit_sphere(t_CamRay	*r, t_scene	*sc, double radius)
 {
-  target->origin = origin;
-  target->dir = direction;
-  return (target);
+	t_vec	oc;
+	double	a;
+	double	b;
+	double	c;
+	double	disc;
+
+	oc = sub_vec(r->origin, sc->objs->cen);
+	a = dot_product(r->dir, r->dir);
+	b = 2.0 * dot_product(oc, r->dir);
+	c = dot_product(oc, oc) - radius;
+	disc = (b * b) - (4 * a * c);
+	if (disc < 0)
+		return (-1.0);
+	return ((-b - sqrt(disc)) / (2 * a));
 }
 
-t_vec   *ft_ray_at(t_vec *target, t_CamRay *ray, float t)
-{
-  target->x = ray->origin.x + t * ray->dir.x;
-  target->y = ray->origin.y + t * ray->dir.y;
-  target->z = ray->origin.z + t * ray->dir.z;
-  return (target);
-}
-
-void  ft_camera_set(t_scene *sc, float aspect_ratio)
-{
-	sc->cam.viewport_h = 2.0;
-  	sc->cam.viewport_w = aspect_ratio * sc->cam.viewport_h;
-	sc->cam.focal_len = 1.0;
-	ft_vec3_set_xyz(&sc->cam.cen, 0.0, 0.0, 0.0);
-	ft_vec3_set_xyz(&sc->cam.horizontal, sc->cam.viewport_w, 0.0, 0.0);
-	ft_vec3_set_xyz(&sc->cam.vertical, 0.0, sc->cam.viewport_h, 0.0);
-	sc->cam.left_bottom.x = sc->cam.cen.x - (sc->cam.horizontal.x / 2) - (sc->cam.vertical.x / 2) - 0;
-	sc->cam.left_bottom.y = sc->cam.cen.y - (sc->cam.horizontal.y / 2) - (sc->cam.vertical.y / 2) - 0;
-	sc->cam.left_bottom.z = sc->cam.cen.z - (sc->cam.horizontal.z / 2) - (sc->cam.vertical.z / 2)				   - sc->cam.focal_len;
-}
-
-t_CamRay *ft_camera_cal_ray(t_CamRay *target, t_scene *sc, float u, float v)
-{
-	t_vec cal;
-
-	cal.x = sc->cam.left_bottom.x + u * sc->cam.horizontal.x + v * sc->cam.vertical.x - sc->cam.cen.x;
-	cal.y = sc->cam.left_bottom.y + u * sc->cam.horizontal.y + v * sc->cam.vertical.y - sc->cam.cen.y;
-	cal.z = sc->cam.left_bottom.z + u * sc->cam.horizontal.z + v * sc->cam.vertical.z - sc->cam.cen.z;
-	return (ft_ray_set(target, sc->cam.cen, cal));
-}
-
-t_vec	color(double r, double g, double b)
+t_vec	colorize(double r, double g, double b)
 {
 	t_vec color;
 
@@ -81,66 +76,61 @@ t_vec	color(double r, double g, double b)
 	color.z = b;
 	return (color);
 }
-
-t_vec	ft_ray_color(t_scene *sc, t_CamRay *r, double hit)
+t_vec	ray_at(t_CamRay *ray, float t)
 {
-	double	t;
-	
-	if (hit > 0)
-            return (color(sc->objs->col.x, sc->objs->col.x, sc->objs->col.x));
-    else
-    {
-        t = 0.5 * (r->dir.x+ 1.0);
-        return (add_vec(mult_vec(color(sc->objs->col.x, sc->objs->col.x, sc->objs->col.x), 1.0 - hit), mult_vec(color(0.5, 0.7, 1.0), hit)));
-   }
+	t_vec target;
+	target.x = ray->origin.x + t * ray->dir.x;
+	target.y = ray->origin.y + t * ray->dir.y;
+	target.z = ray->origin.z + t * ray->dir.z;
+	return (target);
 }
 
-
-t_canvas    canvas(int width, int height)
+t_vec	ray_color(t_CamRay *ray, t_scene *sc)
 {
-	t_canvas    canv;
+	t_inter	inter;
+	// t_vec	hit_point;
+	t_vec	normal_vec;
+	t_vec	n;
 
-	canv.height = height;
-	canv.width = width;
-	canv.aspect_ratio = canv.width / canv.height;
-	return (canv);
+	inter = find_inter(ray, sc);
+	if (inter.t > 0.0)
+	{
+		// hit_point = ray_at(ray, t);
+		normal_vec  = sub_vec(inter.hit, sc->objs->cen);
+		n = get_normalized(normal_vec);
+		return (mult_vec(colorize(n.x + sc->objs->col.x, n.x + sc->objs->col.y, n.x + sc->objs->col.z), 0.5));
+	}
+	return (colorize(1.0 - 0.2 * 0, 1.0 - 0.1 * 0, 1.0));
 }
 
 void    ft_render(t_scene *sc)
 {
-	void		*mlx;
-	void		*mlx_win;
+	t_vars		vars;
 	img_data	img;
-	double		    v, u;
-	t_canvas	    canv;
-	t_CamRay	    *ray_ = malloc(sizeof(t_CamRay));
-	//t_vec           ray_col;
-	unsigned long   color_p;
 	
-	canv = canvas(WIDTH, WIDTH);
-	ft_camera_set(sc, canv.aspect_ratio);
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, WIDTH, WIDTH, "Hello world!");
-	img.img = mlx_new_image(mlx, WIDTH, WIDTH);
+	double		v, u;
+	t_camera	cam;
+	t_CamRay	ray_;
+	t_vec		ray_col;
+
+	cam = set_camera(sc);
+	vars.mlx = mlx_init();
+	vars.win = mlx_new_window(vars.mlx, WIDTH, HEIGHT, "Hello world!");
+	img.img = mlx_new_image(vars.mlx, WIDTH, HEIGHT);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 								&img.endian);
-	for (int i = canv.height - 1; i >= 0; i--)
+	for (int i = 0 ; i < HEIGHT; i++)
 	{
-		for (int j = 0; j < canv.width; j++)
+		for (int j = 0; j < WIDTH; j++)
 		{
-			u = (double)i / (canv.width - 1);
-			v = (double)j / (canv.height - 1);
-			ray_ = ft_camera_cal_ray(ray_ , sc, u, v);
-			double hit = find_inter(ray_, &sc->objs);
-			// ray_col = ft_ray_color(sc, ray_, hit);
-			// printf("%f, %f, %f\n", ray_col.x, ray_col.y, ray_col.z);
-			color_p = createRGB((int)sc->objs->col.x, (int)sc->objs->col.y, (int)sc->objs->col.z);
-			if (hit > 0) //
-				my_mlx_pixel_put(&img, j, i, color_p);
-			else
-				my_mlx_pixel_put(&img, j, i, 0x00000000);
+			v = (double)i * 2 / HEIGHT - 1;
+			u = (double)j * 2 / WIDTH - 1;
+			ray_ = ray_primary(&cam, v, u);
+			ray_col = ray_color(&ray_, sc);
+			my_mlx_pixel_put(&img, j, i, createRGB(ray_col.x, ray_col.y, ray_col.z));
 		}
 	}
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-	mlx_loop(mlx);
+	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
+	mlx_key_hook(vars.win, handle_key, &vars);
+	mlx_loop(vars.mlx);
 }

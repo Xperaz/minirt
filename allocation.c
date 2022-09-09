@@ -6,7 +6,7 @@
 /*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 13:12:52 by smia              #+#    #+#             */
-/*   Updated: 2022/06/29 21:36:09 by smia             ###   ########.fr       */
+/*   Updated: 2022/09/08 20:47:07 by smia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_scene *alloc_scence(void)
     return (sc);
 }
 
-t_objs  *alloc_obj(t_objs   **objs)
+t_objs  *alloc_obj(t_scene *sc)
 {
     t_objs  *new_obj;
 
@@ -45,7 +45,7 @@ t_objs  *alloc_obj(t_objs   **objs)
     null_vec(&(new_obj->cen));
     null_vec(&(new_obj->dir));
     null_vec(&(new_obj->p));
-    new_obj->next = *objs;
-    *objs = new_obj;
+    new_obj->next = sc->objs;
+    sc->objs = new_obj;
     return (new_obj);
 }

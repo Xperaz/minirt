@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersection.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 14:00:32 by smia              #+#    #+#             */
-/*   Updated: 2022/09/05 19:01:51 by smia             ###   ########.fr       */
+/*   Updated: 2022/09/09 17:48:25 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ double inter_sphere(t_CamRay *ray, t_objs *sp)
     c = dot_product(cam_sphere, cam_sphere) - (sp->p.x / 2) * (sp->p.x / 2);
     discr = b * b - (4 * a * c);
     if (discr < 0)
-        return (0);
+        return (-1);
     dist1 = (b * (-1) - sqrt(discr)) / (2 * a);
     dist2 = (b * (-1) + sqrt(discr)) / (2 * a);
     if (dist1 * dist2 >= 0)
@@ -91,35 +91,39 @@ double inter_cylinder(t_CamRay *ray, t_objs *cy)
         
 }
 
-double find_inter(t_CamRay *ray, t_objs **objs)
+t_inter find_inter(t_CamRay *ray, t_scene *sc)
 {
-    double  dist;
-    double  hdist;
-    hdist = -1;
+    t_inter hold;
+    t_inter inter;
+    hold.t = -1;
     t_objs  *obj;
-    obj = *objs;
-    
+    obj = sc->objs;
+
     while (obj)
     {
         if (obj->type == SP)
         {
-            dist = inter_sphere(ray,obj);
-            if ((hdist > dist && dist > 0) || hdist == -1)
-                hdist = dist;
+            inter.t = inter_sphere(ray,obj);
+            inter.col = obj->col;
+            if ((hold.t > inter.t && inter.t > 0) || hold.t == -1)
+                hold = inter;
         }
         if (obj->type == PL)
         {
-            dist = inter_plane(ray, obj);
-            if ((hdist > dist && dist > 0) || hdist == -1)
-                hdist = dist;
+            inter.t = inter_plane(ray, obj);
+            inter.col = obj->col;
+            if ((hold.t > inter.t && inter.t > 0) || hold.t == -1)
+                hold = inter;
         }
         if (obj->type == CY)
         {
-            inter_cylinder(ray, obj);
-            if ((hdist > dist && dist > 0) || hdist == -1)
-                hdist = dist;
+            inter.t = inter_cylinder(ray, obj);
+            inter.col = obj->col;
+            if ((hold.t > inter.t && inter.t > 0) || hold.t == -1)
+                hold = inter;
         }
         obj = obj->next;
     }
-    return (hdist);
+    hold.hit = add_vec(ray->origin, mult_vec(ray->dir,hold.t));
+    return (hold);
 }
