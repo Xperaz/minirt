@@ -6,7 +6,7 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 14:00:32 by smia              #+#    #+#             */
-/*   Updated: 2022/09/09 17:48:25 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/10 12:27:00 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ double inter_sphere(t_CamRay *ray, t_objs *sp)
 
     dist1 = 0;
     dist2 = 0;
-    cam_sphere = sub_vec(sp->cen, ray->origin);
+    cam_sphere = sub_vec(ray->origin,sp->cen);
     a = dot_product(ray->dir,ray->dir); 
     b = 2 * dot_product(cam_sphere,ray->dir);
     c = dot_product(cam_sphere, cam_sphere) - (sp->p.x / 2) * (sp->p.x / 2);
@@ -77,7 +77,7 @@ double inter_cylinder(t_CamRay *ray, t_objs *cy)
 	discr = abc.y * abc.y - 4 * abc.x * abc.z;
     if (discr < 0)
         return -1;
-        dist1 = (abc.y * (-1) - sqrt(discr)) / (2 * abc.x);
+    dist1 = (abc.y * (-1) - sqrt(discr)) / (2 * abc.x);
     dist2 = (abc.y * (-1) + sqrt(discr)) / (2 * abc.x);
     if (dist1 * dist2 >= 0)
     {
@@ -87,8 +87,7 @@ double inter_cylinder(t_CamRay *ray, t_objs *cy)
     }
     if (dist1 >= 0)
         return dist1;
-    return dist2; 
-        
+    return dist2;  
 }
 
 t_inter find_inter(t_CamRay *ray, t_scene *sc)

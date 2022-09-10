@@ -6,7 +6,7 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 14:21:47 by smia              #+#    #+#             */
-/*   Updated: 2022/09/09 17:53:57 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/10 11:49:02 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,23 +49,23 @@ t_CamRay       ray_primary(t_camera *cam, double v, double u)
     return (ray);
 }
 
-double	hit_sphere(t_CamRay	*r, t_scene	*sc, double radius)
-{
-	t_vec	oc;
-	double	a;
-	double	b;
-	double	c;
-	double	disc;
+// double	hit_sphere(t_CamRay	*r, t_scene	*sc, double radius)
+// {
+// 	t_vec	oc;
+// 	double	a;
+// 	double	b;
+// 	double	c;
+// 	double	disc;
 
-	oc = sub_vec(r->origin, sc->objs->cen);
-	a = dot_product(r->dir, r->dir);
-	b = 2.0 * dot_product(oc, r->dir);
-	c = dot_product(oc, oc) - radius;
-	disc = (b * b) - (4 * a * c);
-	if (disc < 0)
-		return (-1.0);
-	return ((-b - sqrt(disc)) / (2 * a));
-}
+// 	oc = sub_vec(r->origin, sc->objs->cen);
+// 	a = dot_product(r->dir, r->dir);
+// 	b = 2.0 * dot_product(oc, r->dir);
+// 	c = dot_product(oc, oc) - radius;
+// 	disc = (b * b) - (4 * a * c);
+// 	if (disc < 0)
+// 		return (-1.0);
+// 	return ((-b - sqrt(disc)) / (2 * a));
+// }
 
 t_vec	colorize(double r, double g, double b)
 {
@@ -88,19 +88,36 @@ t_vec	ray_at(t_CamRay *ray, float t)
 t_vec	ray_color(t_CamRay *ray, t_scene *sc)
 {
 	t_inter	inter;
-	// t_vec	hit_point;
+	t_vec	hit_light;
 	t_vec	normal_vec;
 	t_vec	n;
-
+	double	d;
+	t_vec   px_col;
+	t_vec	dark;
+	dark = make_vec(0,0,0);
 	inter = find_inter(ray, sc);
 	if (inter.t > 0.0)
 	{
 		// hit_point = ray_at(ray, t);
 		normal_vec  = sub_vec(inter.hit, sc->objs->cen);
 		n = get_normalized(normal_vec);
-		return (mult_vec(colorize(n.x + sc->objs->col.x, n.x + sc->objs->col.y, n.x + sc->objs->col.z), 0.5));
+		hit_light = sub_vec(sc->light.src, inter.hit);
+		d = dot_product(hit_light, normal_vec);
+		if (d < 0)
+			d = 0;
+		if (d > 1)
+			d = 1;
+		px_col = add_coef(inter.col, sc->amb.col, sc->amb.ratio); // this function try to merge 2 col with consideration of ratio
+		t_CamRay sh_ray;
+		sh_ray.origin = inter.hit;
+		sh_ray.dir = sub_vec(sc->light.src,inter.hit);
+		t_inter shadow = find_inter(&sh_ray,sc); // to know if our inter.hit is shading i send a ray from intersection to light.src and see if there is any intersection with any obejct 
+		if (module_v(sub_vec(sc->light.src,inter.hit)) < module_v(sub_vec(shadow.hit,sh_ray.origin)))
+			return (add_coef(dark, px_col, sc->amb.ratio));
+		px_col = add_coef(px_col, sc->light.col, d * sc->light.ratio);
+		return (px_col);
 	}
-	return (colorize(1.0 - 0.2 * 0, 1.0 - 0.1 * 0, 1.0));
+	return (mult_vec(sc->amb.col, sc->amb.ratio));
 }
 
 void    ft_render(t_scene *sc)

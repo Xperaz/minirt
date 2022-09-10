@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 13:01:02 by smia              #+#    #+#             */
-/*   Updated: 2022/09/09 17:44:01 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/09 23:36:35 by smia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 800
+# define HEIGHT 1000
 # define CY 1
 # define PL 2
 # define SP 3
@@ -68,6 +68,7 @@ typedef struct  s_light
 {
     t_vec   src;
     double  ratio;
+    t_vec   col;
     int     count;
 }               t_light;
 
@@ -143,6 +144,7 @@ t_vec		add_vec(t_vec u, t_vec v);
 t_vec	    mult_vec(t_vec v, double a);
 t_vec		vect_cross(t_vec u, t_vec v);
 double	    dot_product(t_vec u, t_vec v);
+double		module_v(t_vec	v);
 
 
 
@@ -182,7 +184,10 @@ t_vec	        div_vect(t_vec v, double a);
 // t_vec		    color(double r, double g, double b);
 // t_vec		    ray_color(t_CamRay *r);
 t_vec		    make_vec(double x, double y, double z);
-int   createRGB(int r, int g, int b);
+
+// color
+t_vec    add_coef(t_vec col1, t_vec col2, double ratio);
+int     createRGB(int r, int g, int b);
 
 
 

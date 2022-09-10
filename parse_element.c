@@ -6,7 +6,7 @@
 /*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 03:21:29 by smia              #+#    #+#             */
-/*   Updated: 2022/09/08 20:47:49 by smia             ###   ########.fr       */
+/*   Updated: 2022/09/09 22:40:36 by smia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void    parse_camera(t_scene *sc,char **tockens)
 
 void    parse_light(t_scene *sc, char **tockens)
 {
-    if (!tockens || !tockens[1] || !tockens[2] || tockens[3])
+    if (!tockens || !tockens[1] || !tockens[2] || !tockens[3] || tockens[4])
         ft_err("invalid light !");
     if (sc->light.count != 0)
         ft_err("to many light !");
@@ -56,6 +56,7 @@ void    parse_light(t_scene *sc, char **tockens)
     sc->light.ratio = ft_atod(tockens[2]);
     if (sc->light.ratio < 0 || sc->light.ratio > 1)
         ft_err("enter the light brightness ratio in range [0.0,1.0]");
+    sc->light.col = get_color(tockens[3]);
 }
 
 void    parse_sphere(t_scene *sc, char **tockens)
