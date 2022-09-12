@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 13:01:02 by smia              #+#    #+#             */
-/*   Updated: 2022/09/09 23:36:35 by smia             ###   ########.fr       */
+/*   Updated: 2022/09/12 20:26:14 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# define WIDTH 800
+# define WIDTH 1000
 # define HEIGHT 1000
 # define CY 1
 # define PL 2
@@ -188,6 +188,8 @@ t_vec		    make_vec(double x, double y, double z);
 // color
 t_vec    add_coef(t_vec col1, t_vec col2, double ratio);
 int     createRGB(int r, int g, int b);
+t_vec   add_color(t_vec col1, t_vec col2);
+t_vec	ray_color(t_CamRay *ray, t_scene *sc);
 
 
 

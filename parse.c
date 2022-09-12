@@ -6,7 +6,7 @@
 /*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 03:22:01 by smia              #+#    #+#             */
-/*   Updated: 2022/08/30 15:21:37 by smia             ###   ########.fr       */
+/*   Updated: 2022/09/10 14:12:18 by smia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_vec   get_vec(char *s)
     params = ft_split(s, ',');
     if (!params || !params[1] || !params[2] || params[3])
         ft_err("invalid coordinates");
-    cord = (t_vec){ft_atod(params[0]), ft_atod(params[1]), ft_atod(params[2])};
+    cord = make_vec(ft_atod(params[0]), ft_atod(params[1]), ft_atod(params[2]));
     free_split(params);
     return (cord);
 }
