@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 13:01:02 by smia              #+#    #+#             */
-/*   Updated: 2022/09/12 20:26:14 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/14 18:20:01 by smia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# define WIDTH 1000
-# define HEIGHT 1000
+# define WIDTH 1200
+# define HEIGHT 1200
 # define CY 1
 # define PL 2
 # define SP 3
@@ -54,6 +54,7 @@ typedef struct s_inter
     double  t;
     t_vec   col;
     t_vec   hit;
+    t_vec   norm;
 }               t_inter;
 
 typedef struct  t_cam

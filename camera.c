@@ -6,7 +6,7 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 14:21:47 by smia              #+#    #+#             */
-/*   Updated: 2022/09/12 20:27:10 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/14 19:43:35 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void    ft_render(t_scene *sc)
 
 	cam = set_camera(sc);
 	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, WIDTH, HEIGHT, "Hello world!");
+	vars.win = mlx_new_window(vars.mlx, WIDTH, HEIGHT, "MiniRT");
 	img.img = mlx_new_image(vars.mlx, WIDTH, HEIGHT);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 								&img.endian);
