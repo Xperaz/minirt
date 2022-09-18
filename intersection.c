@@ -46,6 +46,7 @@ double inter_sphere(t_CamRay *ray, t_objs *sp)
 
 double inter_plane(t_CamRay *ray, t_objs *pl)
 {
+    
 	t_vec   cam_plane;
 	double  dist;
 	
@@ -59,59 +60,97 @@ double inter_plane(t_CamRay *ray, t_objs *pl)
 		return -1;
 }
 
+double inter_cone(t_CamRay *ray, t_objs *co)
+{
+    double	a;
+	double	b;
+	double	c;
+	double	t1, t2, delta, t;
+     t_vec   oc;
+    t_vec   normal;
+    double  angle;
+    
+    double dot = dot_product(co->cen, co->dir);
+    double len1 = module_v(co->cen);
+    double len2 = module_v(co->dir);
+    angle = (acos(dot/sqrt(len1* len2))) / 2;
+    double k = tan(angle);
+
+    normal = get_normalized(co->dir);
+    oc = sub_vec(ray->origin, co->cen);
+    a = (dot_product(ray->dir, ray->dir)) - ((1 + k * k) * (pow(dot_product(ray->dir, normal), 2.0)));
+    b = 2 * ((dot_product(ray->dir, ray->dir) - ((1+ k * k) * (dot_product(ray->dir, normal) * dot_product(oc, normal)))));
+    c = (dot_product(oc, oc) - (1 + k * k) * (pow(dot_product(oc, normal), 2.0)));
+
+    delta = b * b - 4 * a * c;
+	if (delta < 0)
+		return (-1.0);
+    else
+    {
+        t1 = (-b + sqrt(delta)) / (2 * a);
+        t2 = (-b - sqrt(delta)) / (2 * a);
+        if (t1 < 0)
+		    return (-1.0);
+	    if (t1 > t2)
+		    t = t2;
+	    else
+		    t = t1;
+        // min = dot_product(ray->dir, normal) * t2 +
+		// 	dot_product(oc, normal);
+	    // max = dot_product(ray->dir, normal) * t1 +
+		// 	dot_product(oc, normal);
+        // if (min >= 0 && min <= co->p.y)
+	    // 	return (t2);
+	    // if (max >= 0 && max <= co->p.y)
+		//     return (t1);
+    }
+	return (-1.0);
+}
+
 double inter_cylinder(t_CamRay *ray, t_objs *cy)
 {
 	double	a;
 	double	b;
 	double	c;
-	double	t;
-    //double  m;
-	double	delta;
-	t_CamRay new_ray;
-	
-	new_ray.origin = ray->origin;
-	cy->dir = get_normalized(cy->dir);
-	new_ray.dir = vect_cross(ray->dir, cy->dir);
-	t_vec	p = sub_vec(ray->origin, cy->cen);
-	a = dot_product(new_ray.dir, new_ray.dir);
-    b = 2 * dot_product(new_ray.dir, vect_cross(p, cy->dir));
-    c = dot_product(vect_cross(p, cy->dir), vect_cross(p, cy->dir)) - pow(cy->p.x / 2, 2);
-    delta = pow(b, 2) - 4 * c * a;
-	if (delta < 0.0 )
-		return (-1.0);
-    double t1 = (-b - sqrt(delta)) / (2 * a);
-    double t2 = (-b + sqrt(delta)) / (2 * a);
-	if (t2 < 0 && t1 < 0)
-		return -1.0;
+	double	t1, t2, delta, min, max, t;
+    t_vec   oc;
+    t_vec   normal;
     
-    // double m0 = dot_product(ray->dir, cy->dir) * t1 + dot_product(pp, cy->dir);
-    // double m1 = dot_product(ray->dir, cy->dir) * t2 + dot_product(pp, cy->dir);
-
-    // if (t1 < t2 && m0 >= 0 && m0 <= cy->p.y)
-    //     {
-    //         m = m0;
-    //         t = t1;
-    //     }
-    // else 
-    //     if (m1 >= 0 && m1 <= cy->p.x)
-    //         {
-    //              m = m1;
-    //              t = t2;
-    //         }
-    //     else 
-    //         return(-1.0);
-t = take_min(t1, t2);
-
-double max = sqrt(pow(cy->p.y / 2, 2) + pow(cy->p.x, 2)); //pythagoras theorem
-t_vec point = add_vec(ray->origin, mult_vec(ray->dir, t));//ray->origin + ray->dir* t;
-t_vec len = sub_vec(point, cy->cen);//point - cylinder.center;
-if (get_norm2(len) > max) // if t1 is too high we try with t2
-	t = t2;
-point = add_vec(ray->origin, mult_vec(ray->dir, t));//ray->origin + ray->dir* t;
-len = sub_vec(point, cy->cen);//point - cylinder.center;
-if (get_norm2(len) > max) // if t2 is too high too then there is no intersection, else t2 is the intersection. And t2 is in the second half of the cylinder
-	return -1.0;
-return (t);
+    normal = get_normalized(cy->dir);
+    oc = sub_vec(ray->origin, cy->cen);
+    a = dot_product(ray->dir, ray->dir) - (dot_product(ray->dir, normal) *
+		dot_product(ray->dir, normal));
+    b = 2 * (dot_product(ray->dir, oc) -
+				(dot_product(ray->dir, normal) *
+					dot_product(oc, normal)));
+	c = dot_product(oc, oc) -
+		dot_product(oc, normal) * dot_product(oc,
+			normal)
+		- (cy->p.x / 2) * (cy->p.x / 2);
+    
+    delta = b * b - 4 * a * c;
+	if (delta < 0)
+		return (-1.0);
+    else
+    {
+        t1 = (-b + sqrt(delta)) / (2 * a);
+        t2 = (-b - sqrt(delta)) / (2 * a);
+        if (t1 < 0)
+		    return (-1.0);
+	    if (t1 > t2)
+		    t = t2;
+	    else
+		    t = t1;
+        min = dot_product(ray->dir, normal) * t2 +
+			dot_product(oc, normal);
+	    max = dot_product(ray->dir, normal) * t1 +
+			dot_product(oc, normal);
+        if (min >= 0 && min <= cy->p.y)
+	    	return (t2);
+	    if (max >= 0 && max <= cy->p.y)
+		    return (t1);
+    }
+	return (-1.0);
 }
 
 t_inter find_inter(t_CamRay *ray, t_scene *sc)
@@ -149,6 +188,17 @@ t_inter find_inter(t_CamRay *ray, t_scene *sc)
         if (obj->type == CY)
         {
             inter.t = inter_cylinder(ray, obj);
+            if (((hold.t > inter.t || hold.t == -1)  && inter.t > 0.0000001))
+            {
+                inter.col = obj->col;
+                inter.hit = add_vec(ray->origin, mult_vec(ray->dir,inter.t));
+                inter.norm = get_normalized(sub_vec(inter.hit, obj->cen));
+                hold = inter;
+            }
+        }
+        if (obj->type == CO)
+        {
+            inter.t = inter_cone(ray, obj);
             if (((hold.t > inter.t || hold.t == -1)  && inter.t > 0.0000001))
             {
                 inter.col = obj->col;

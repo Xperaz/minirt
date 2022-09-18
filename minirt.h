@@ -6,7 +6,7 @@
 /*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 13:01:02 by smia              #+#    #+#             */
-/*   Updated: 2022/09/14 18:20:01 by smia             ###   ########.fr       */
+/*   Updated: 2022/09/17 20:49:17 by smia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # define CY 1
 # define PL 2
 # define SP 3
+# define CO 4 
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -67,10 +68,10 @@ typedef struct  t_cam
 
 typedef struct  s_light
 {
-    t_vec   src;
-    double  ratio;
-    t_vec   col;
-    int     count;
+    t_vec           src;
+    double          ratio;
+    t_vec           col;
+    struct s_light  *next;
 }               t_light;
 
 typedef struct s_amb
@@ -95,7 +96,7 @@ typedef struct s_scene
 {
     t_vec       col;
     t_cam       cam;
-    t_light     light;
+    t_light     *light;
     t_amb       amb;
     t_objs      *objs;
 }               t_scene;
@@ -117,6 +118,7 @@ void    parse_sphere(t_scene *sc, char **tockens);
 void    parse_light(t_scene *sc, char **tockens);
 void    parse_camera(t_scene *sc,char **tockens);
 void    parse_ambient(t_scene *sc, char **tockens);
+void    parse_cone(t_scene *sc, char **tockens);
 
 // allocation
 t_scene         *alloc_scence(void);

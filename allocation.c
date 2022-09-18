@@ -6,7 +6,7 @@
 /*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 13:12:52 by smia              #+#    #+#             */
-/*   Updated: 2022/09/08 20:47:07 by smia             ###   ########.fr       */
+/*   Updated: 2022/09/15 14:49:28 by smia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_scene *alloc_scence(void)
 	sc->objs = NULL;
     sc->amb.count = 0;
     sc->cam.count = 0;
-    sc->light.count = 0;
+    sc->light = NULL;
     return (sc);
 }
 
