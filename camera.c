@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 14:21:47 by smia              #+#    #+#             */
-/*   Updated: 2022/09/14 19:43:35 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/18 21:03:43 by smia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ t_vec	ray_at(t_CamRay *ray, float t)
 	target.z = ray->origin.z + t * ray->dir.z;
 	return (target);
 }
-
-
 
 void    ft_render(t_scene *sc)
 {
