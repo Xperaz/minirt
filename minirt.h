@@ -6,7 +6,7 @@
 /*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 13:01:02 by smia              #+#    #+#             */
-/*   Updated: 2022/09/14 18:20:01 by smia             ###   ########.fr       */
+/*   Updated: 2022/09/18 19:00:23 by smia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # define CY 1
 # define PL 2
 # define SP 3
+# define CO 4 
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -70,6 +71,7 @@ typedef struct  s_light
     t_vec   src;
     double  ratio;
     t_vec   col;
+     struct s_light  *next;
     int     count;
 }               t_light;
 
