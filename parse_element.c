@@ -128,19 +128,12 @@ void parse_cone(t_scene *sc, char **tockens)
 {
     t_objs  *obj;
 
-    if (!tockens || !tockens[1] || !tockens[2] || !tockens[3] || !tockens[4] || !tockens[5] || tockens[6])
-        ft_err("invalid Cone");
+    if (!tockens || !tockens[1] || !tockens[2] || !tockens[3] || !tockens[4] || tockens[5])
+        ft_err("invalid triangle");
     obj = alloc_obj(sc);
-    obj->type = CO;
+    obj->type = TR;
     obj->cen = get_vec(tockens[1]);
     obj->dir = get_vec(tockens[2]);
-    if (obj->dir.x > 1 || obj->dir.y > 1 || obj->dir.z > 1)
-        ft_err("invalid orientation Cone");
-    if (obj->dir.x < -1 || obj->dir.y < -1 || obj->dir.z < -1)
-        ft_err("invalid orientation Cone");
-    obj->p.x = ft_atod(tockens[3]);
-    obj->p.y = ft_atod(tockens[4]);
-    if (obj->p.x <= 0 || obj->p.y <= 0)
-        ft_err("invalid diameter Cone");
-    obj->col = get_color(tockens[5]);
+    obj->point = get_vec(tockens[3]);
+    obj->col = get_color(tockens[4]);
 }

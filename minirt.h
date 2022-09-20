@@ -18,7 +18,7 @@
 # define CY 1
 # define PL 2
 # define SP 3
-# define CO 4 
+# define TR 4 
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -89,6 +89,7 @@ typedef struct  s_objs
     t_vec           p;
     t_vec           col;
     t_vec           norm;
+    t_vec           point; //for triangle
     struct s_objs   *next;
 }               t_objs;
 
@@ -187,6 +188,7 @@ t_vec	        div_vect(t_vec v, double a);
 // t_vec		    color(double r, double g, double b);
 // t_vec		    ray_color(t_CamRay *r);
 t_vec		    make_vec(double x, double y, double z);
+t_vec    ray_at(t_CamRay *ray, double t);
 
 // color
 t_vec    add_coef(t_vec col1, t_vec col2, double ratio);

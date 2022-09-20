@@ -30,13 +30,13 @@ t_vec calcul_color(t_scene *sc, t_inter inter, t_vec  amb)
 		sh_ray.dir = get_normalized(hit_light);
 		t_inter shadow = find_inter(&sh_ray,sc);
 		t_vec hit_sh = sub_vec(shadow.hit,sh_ray.origin);
-		if (shadow.t > 0.0000001 && (module_v(hit_light) > module_v(hit_sh)))
+		if (shadow.t > 0.00001f && (module_v(hit_light) > module_v(hit_sh)))
 			ret = add_color(ret, col);
 		else
 		{
 			d = dot_product(get_normalized(hit_light), inter.norm);
-			ret = add_color(ret,add_coef(inter.col, l->col , fabs(d) * l->ratio));
-			// R = (2*N.L)*N - L.
+			ret = add_color(ret,add_coef(inter.col, l->col ,  fabs(d) * l->ratio));
+			//R = (2*N.L)*N - L;
 			t_vec L = get_normalized(hit_light);
 			t_vec V = get_normalized(sub_vec(inter.hit, sc->cam.cen));
 			t_vec R = sub_vec(mult_vec(inter.norm, 2 * dot_product(inter.norm, L)), L);

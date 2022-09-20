@@ -50,7 +50,6 @@ int main (int ac, char **av)
         ft_err("allocation");
     parse(sc,fd);
     ft_render(sc);
-
     ft_collect(&root,root);
     return 0;
 }

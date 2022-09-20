@@ -60,7 +60,7 @@ t_vec	colorize(double r, double g, double b)
 	color.z = b;
 	return (color);
 }
-t_vec	ray_at(t_CamRay *ray, float t)
+t_vec	ray_at(t_CamRay *ray, double t)
 {
 	t_vec target;
 	target.x = ray->origin.x + t * ray->dir.x;
@@ -68,8 +68,6 @@ t_vec	ray_at(t_CamRay *ray, float t)
 	target.z = ray->origin.z + t * ray->dir.z;
 	return (target);
 }
-
-
 
 void    ft_render(t_scene *sc)
 {
