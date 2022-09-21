@@ -18,7 +18,7 @@
 # define CY 1
 # define PL 2
 # define SP 3
-# define TR 4 
+# define CO 4 
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>

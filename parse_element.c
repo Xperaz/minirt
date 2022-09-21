@@ -127,13 +127,19 @@ void    parse_plane(t_scene *sc, char **tockens)
 void parse_cone(t_scene *sc, char **tockens)
 {
     t_objs  *obj;
-
-    if (!tockens || !tockens[1] || !tockens[2] || !tockens[3] || !tockens[4] || tockens[5])
-        ft_err("invalid triangle");
+    
+    if (!tockens || !tockens[1] || !tockens[2] || !tockens[3] || !tockens[4] || !tockens[5] || tockens[6])
+        ft_err("invalid cylinder");
     obj = alloc_obj(sc);
-    obj->type = TR;
+    obj->type = CY;
     obj->cen = get_vec(tockens[1]);
     obj->dir = get_vec(tockens[2]);
-    obj->point = get_vec(tockens[3]);
-    obj->col = get_color(tockens[4]);
+    if (obj->dir.x > 1 || obj->dir.y > 1 || obj->dir.z > 1)
+        ft_err("invalid orientation cylinder");
+    if (obj->dir.x < -1 || obj->dir.y < -1 || obj->dir.z < -1)
+        ft_err("invalid orientation cylinder");
+    obj->p.x = ft_atod(tockens[3]);
+    if (obj->p.x <= 0 && obj->p.x > 180)
+        ft_err("invalid diameter cy");
+    obj->col = get_color(tockens[5]);
 }

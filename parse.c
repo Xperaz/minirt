@@ -56,7 +56,7 @@ void    parse_line(char *id, char **tockens, t_scene *sc)
 		parse_plane(sc, tockens);
 	else if (id[0] == 'c' && id[1] == 'y' && id[2] == '\0')
 		parse_cylinder(sc, tockens);
-    else if (id[0] == 't' && id[1] == 'r' && id[2] == '\0')
+    else if (id[0] == 'c' && id[1] == 'o' && id[2] == '\0')
         parse_cone(sc, tockens);
 	else
 		ft_err("invalid object type");

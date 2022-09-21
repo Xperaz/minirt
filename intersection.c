@@ -12,30 +12,53 @@
 
 #include "minirt.h"
 
-t_vec    get_at(t_objs *cy, t_vec hit, t_CamRay *ray, double t)
+double  inter_cone(t_CamRay *ray, t_objs *co)
 {
-    t_vec   normal;
+    double	a;
+	double	b;
+	double	c;
+    double	k;
+	double	t1, t2, delta, y0, y1, t;
     t_vec   oc;
-    double  m;
+    t_vec   normal;
 
-    // double  t,a, b, delta, t1, t2;
+    // double theta = pow(cos(co->p.x), 2.0);
+    // normal = get_normalized(co->dir);
+    // oc = sub_vec(ray->origin, co->cen);
+    // a = pow(dot_product(ray->dir, normal), 2.0) - theta;
+    // b = 2 * ((dot_product(ray->dir, normal) * (dot_product(oc, normal))) - dot_product(ray->dir, mult_vec(oc, theta)));
+    // c = (pow(dot_product(oc, normal), 2.0)) - (dot_product(oc, mult_vec(oc, theta)));
+    
+    k = ((co->p.x / 2)  / co->p.y) * ((co->p.x / 2) / co->p.y);
+    double u = 2 * co->p.x;
+    double tan = sin(u) / (1 + cos(u));
+    k = ((tan * M_PI) / 180.0);
+    normal = get_normalized(co->dir);
+    oc = sub_vec(ray->origin, co->cen);
+    a = (dot_product(ray->dir, ray->dir)) - ((1 + k * k) * (pow(dot_product(ray->dir, co->cen), 2.0)));
+    b = 2 * ((dot_product(ray->dir, oc)) - ((1 + k * k) * (dot_product(ray->dir, normal)) * (dot_product(oc, normal))));
+    c = dot_product(oc, oc) - ((1 + k * k) * (pow(dot_product(oc, normal), 2.0)));
 
-    // a = dot_product(cy->dir, cy->dir) * -1;
-    // b = dot_product(cy->dir, sub_vec(hit, cy->cen));
-    // delta = pow(b, 2.0);
-    // t1 = ((b * -1) - sqrt(delta)) / (2 * a);
-    // t2 = ((b * -1) + sqrt(delta)) / (2 * a);
-    // if (dot_product(hit, cy->dir) > 0)
-    //     t = t2;
-    // else
-    //     t = t1;
-   // double m = dot_product(ray->dir, mult_vec(ray->origin, t)) + dot_product()
-     /** get normal */
-    oc = sub_vec(ray->origin, cy->cen);
-    m = dot_product(ray->origin, mult_vec(cy->dir, t)) + dot_product(oc, cy->dir);\
-    t_vec v = mult_vec(cy->dir, m);
-    normal = sub_vec(sub_vec(hit, cy->cen), v);
-	return (get_normalized(normal));
+    delta = b * b - 4 * a * c;
+	if (delta <  0.0000001)
+		return (-1.0);
+    if (delta == 0 || delta ==  0.0000001)
+        t = -b / (2 * a);
+    t1 = (-b + sqrt(delta)) / (2 * a);
+    t2 = (-b - sqrt(delta)) / (2 * a);
+    if (t1 <  0.0000001)
+		return (-1.0);
+	if (t1 > t2)
+		t = t2;
+	else
+		t = t1;
+    y0 = dot_product(ray->dir,normal) * t2 + dot_product(oc,normal);
+	y1 = dot_product(ray->dir,normal) * t1 + dot_product(oc,normal);
+    if (y0 >=  0.0000001 && y0 <= co->p.y)
+	    return (t2);
+	if (y1 >=  0.0000001 && y1 <= co->p.y)
+		return (t1);
+	return (-1.0);
 }
 
 double inter_sphere(t_CamRay *ray, t_objs *sp)
@@ -105,8 +128,7 @@ double inter_cylinder(t_CamRay *ray, t_objs *cy)
 				(dot_product(ray->dir,normal) *
 					dot_product(oc,normal)));
 	c = dot_product(oc, oc) -
-		dot_product(oc,normal) * dot_product(oc,
-			normal)
+		(dot_product(oc,normal) * dot_product(oc,normal))
 		- (cy->p.x / 2) * (cy->p.x / 2);
     
     delta = b * b - 4 * a * c;
@@ -136,6 +158,7 @@ t_inter find_inter(t_CamRay *ray, t_scene *sc)
     hold.t = -1;
     t_objs  *obj;
     obj = sc->objs;
+    double m;
 
     while (obj)
     {
@@ -167,36 +190,35 @@ t_inter find_inter(t_CamRay *ray, t_scene *sc)
         if (obj->type == CY)
         {
              inter.t = inter_cylinder(ray, obj);
-            // if (((hold.t > inter.t || hold.t == -1)  && inter.t > 0.0000001))
-            // {
-            //     inter.col = obj->col;
-            //     inter.hit = add_vec(ray->origin, mult_vec(ray->dir,inter.t));
-            //     t_vec bc = make_vec(obj->cen.x, 0, obj->cen.z - inter.hit.z);
-            //     inter.norm = get_normalized(bc);
-            //     hold = inter;
-            // }
             if (((hold.t > inter.t || hold.t == -1)  && inter.t > 0.0000001))
             {
                 inter.col = obj->col;
                 inter.hit = add_vec(ray->origin, mult_vec(ray->dir,inter.t));
-                //t_vec bc = get_at(obj, inter.hit, ray, inter.t);
-                double m = dot_product(ray->dir, mult_vec(obj->dir, inter.t)) + dot_product(sub_vec(ray->origin, obj->cen), obj->dir);
-                inter.norm = get_normalized(sub_vec(sub_vec(inter.hit, obj->cen), mult_vec(obj->dir, m)));
-                //inter.norm = get_at(sub_vec(inter.hit, bc));
+                t_vec oc = get_normalized(obj->dir);
+                m = dot_product(ray->dir, mult_vec(oc, inter.t)) + dot_product(sub_vec(ray->origin, obj->cen), oc);
+                inter.norm = get_normalized(sub_vec(sub_vec(inter.hit, obj->cen), mult_vec(oc, m)));
                 hold = inter;
             }
         }
-        // if (obj->type == TR)
-        // {
-        //     inter.t = inter_triangle(ray, obj);
-        //     if (((hold.t > inter.t || hold.t == -1)  && inter.t > 0.0000001))
-        //     {
-        //         inter.col = obj->col;
-        //         inter.hit = add_vec(ray->origin, mult_vec(ray->dir,inter.t));
-        //         inter.norm = get_normalized(sub_vec(inter.hit, obj->cen));
-        //         hold = inter;
-        //     }
-        // }
+        if (obj->type == CO)
+        {
+            inter.t = inter_cone(ray, obj);
+            if (((hold.t > inter.t || hold.t == -1)  && inter.t > 0.0000001))
+            {
+                inter.col = obj->col;
+                inter.hit = add_vec(ray->origin, mult_vec(ray->dir,inter.t));
+                double n = dot_product(ray->dir, mult_vec(obj->dir, inter.t)) + dot_product(sub_vec(ray->origin, obj->cen), obj->dir);
+                inter.norm = get_normalized(sub_vec(sub_vec(inter.hit, obj->cen), mult_vec(obj->dir, n)));
+                hold = inter;
+            //     inter.col = obj->col;
+            //     inter.hit = add_vec(ray->origin, mult_vec(ray->dir,inter.t));
+            //     double m = dot_product(ray->dir, mult_vec(obj->dir, inter.t)) + dot_product(sub_vec(ray->origin, obj->cen), obj->dir);
+            //    // double a = m * pow(tan(obj->p.x * M_PI / 180.0), 2.0);
+            //     double scale = 1 + pow((((obj->p.x / 2)  / obj->p.y) * ((obj->p.x / 2) / obj->p.y)), 2.0);
+            //     inter.norm = get_normalized(sub_vec(sub_vec(inter.hit, obj->cen), mult_vec(obj->dir, m * scale)));
+            //     hold = inter;
+            }
+        }
         obj = obj->next;
     }
     return (hold);
