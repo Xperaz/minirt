@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 13:01:02 by smia              #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/09/17 20:49:17 by smia             ###   ########.fr       */
-=======
-/*   Updated: 2022/09/18 19:00:23 by smia             ###   ########.fr       */
->>>>>>> origin/mandatory
+/*   Updated: 2022/09/23 13:46:02 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +15,7 @@
 
 # define WIDTH 1200
 # define HEIGHT 1200
+# define EPS 0.0000001
 # define CY 1
 # define PL 2
 # define SP 3
@@ -31,8 +28,6 @@
 # include "mlx.h"
 
 /* img info struct */
-
-
 
 typedef struct	s_data {
 	void	*img;
@@ -72,18 +67,10 @@ typedef struct  t_cam
 
 typedef struct  s_light
 {
-<<<<<<< HEAD
     t_vec           src;
     double          ratio;
     t_vec           col;
     struct s_light  *next;
-=======
-    t_vec   src;
-    double  ratio;
-    t_vec   col;
-     struct s_light  *next;
-    int     count;
->>>>>>> origin/mandatory
 }               t_light;
 
 typedef struct s_amb
@@ -101,7 +88,10 @@ typedef struct  s_objs
     t_vec           p;
     t_vec           col;
     t_vec           norm;
-    t_vec           point; //for triangle
+     //for triangle
+    t_vec           vertex0;
+    t_vec           vertex1;
+    t_vec           vertex2;
     struct s_objs   *next;
 }               t_objs;
 
@@ -131,7 +121,9 @@ void    parse_sphere(t_scene *sc, char **tockens);
 void    parse_light(t_scene *sc, char **tockens);
 void    parse_camera(t_scene *sc,char **tockens);
 void    parse_ambient(t_scene *sc, char **tockens);
+
 void    parse_cone(t_scene *sc, char **tockens);
+void    parse_triangle(t_scene *sc, char **tockens);
 
 // allocation
 t_scene         *alloc_scence(void);
@@ -162,10 +154,7 @@ t_vec		vect_cross(t_vec u, t_vec v);
 double	    dot_product(t_vec u, t_vec v);
 double		module_v(t_vec	v);
 
-
-
 /* camera */
-
 typedef	struct Camera_Setup
 {
 	t_vec		orig;  // Camera origin (position)
@@ -184,30 +173,73 @@ typedef struct CamRay
 	t_vec	dir;
 }	t_CamRay;
 
-// Intersection 
-double take_min(double x, double y);
-t_inter find_inter(t_CamRay *ray, t_scene *sc);
-void	my_mlx_pixel_put(img_data *data, int x, int y, int color);
-double inter_sphere(t_CamRay *ray, t_objs *sp);
-double inter_plane(t_CamRay *ray, t_objs *pl);
+
+/* camera */
+t_camera    set_camera(t_scene *sc);
+t_CamRay       ray_primary(t_camera *cam, double v, double u);
+t_vec   ray_at(t_CamRay *ray, double t);
+
+
+/* rendring */
+
 void    ft_render(t_scene *sc);
 
+// Intersection 
+
+typedef	struct sphere
+{
+	double   a;
+	double   b;
+	double   c;
+	double   t;
+	double   t1;
+	double   t2;
+	t_vec   oc;
+}	t_sphere;
+
+typedef	struct cylinder
+{
+	double	a;
+	double	b;
+	double	c;
+	double	t;
+	double	t1;
+	double	t2;
+	double	delta;
+	double	y0;
+	double	y1;
+	t_vec   oc;
+	t_vec   normal;
+}	t_cylinder;
+
+double take_min(double x, double y);
+t_inter find_inter(t_CamRay *ray, t_scene *sc);
+double inter_sphere(t_CamRay *ray, t_objs *sp);
+double inter_plane(t_CamRay *ray, t_objs *pl);
+double inter_cylinder(t_CamRay *ray, t_objs *cy);
+void    ft_render(t_scene *sc);
+
+
 /* mlx funct end */
+int     handle_key(int key, t_vars *vars);
+void	my_mlx_pixel_put(img_data *data, int x, int y, int color);
+int     red_button(void);
 
 t_vec	        div_vect(t_vec v, double a);
-// t_CamRay	    ray(t_vec orig, t_vec dir);
-// t_CamRay	    ray_primary(t_camera *cam, double u, double v);
-// t_vec		    color(double r, double g, double b);
-// t_vec		    ray_color(t_CamRay *r);
 t_vec		    make_vec(double x, double y, double z);
-t_vec    ray_at(t_CamRay *ray, double t);
+t_vec           ray_at(t_CamRay *ray, double t);
 
 // color
 t_vec    add_coef(t_vec col1, t_vec col2, double ratio);
-int     createRGB(int r, int g, int b);
+int     create_rgb(int r, int g, int b);
 t_vec   add_color(t_vec col1, t_vec col2);
 t_vec	ray_color(t_CamRay *ray, t_scene *sc);
+t_vec	colorize(double r, double g, double b);
 
+//surface normal
 
+t_inter spher_normal(t_inter hold, t_objs *obj, t_CamRay *ray);
+t_inter plane_normal(t_inter hold, t_objs *obj, t_CamRay *ray);
+t_inter cylinder_normal(t_inter hold, t_objs *obj, t_CamRay *ray);
 
 #endif

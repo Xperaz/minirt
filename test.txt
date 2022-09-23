@@ -1,0 +1,5 @@
+   /** get normal */
+    t_vec at = add_vec(ray->origin, mult_vec(ray->dir,info.t));
+    double m = dot_product(ray->origin, mult_vec(ray->origin, info.t)) + dot_product(oc, ray->dir);
+    info.normal = get_normalized(sub_vec(sub_vec(at, cy->cen), mult_vec(ray->dir, m)));
+	return (info);

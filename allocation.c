@@ -6,7 +6,11 @@
 /*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 13:12:52 by smia              #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2022/09/15 14:49:28 by smia             ###   ########.fr       */
+=======
 /*   Updated: 2022/09/18 20:50:55 by smia             ###   ########.fr       */
+>>>>>>> origin/mandatory
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +34,10 @@ t_scene *alloc_scence(void)
 	sc->objs = NULL;
     sc->amb.count = 0;
     sc->cam.count = 0;
+<<<<<<< HEAD
+    sc->light = NULL;
+=======
+>>>>>>> origin/mandatory
     return (sc);
 }
 

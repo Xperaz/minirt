@@ -6,7 +6,11 @@
 /*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 03:22:01 by smia              #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2022/09/17 20:47:31 by smia             ###   ########.fr       */
+=======
 /*   Updated: 2022/09/18 19:01:04 by smia             ###   ########.fr       */
+>>>>>>> origin/mandatory
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +60,8 @@ void    parse_line(char *id, char **tockens, t_scene *sc)
 		parse_plane(sc, tockens);
 	else if (id[0] == 'c' && id[1] == 'y' && id[2] == '\0')
 		parse_cylinder(sc, tockens);
+    else if (id[0] == 'c' && id[1] == 'o' && id[2] == '\0')
+        parse_cone(sc, tockens);
 	else
 		ft_err("invalid object type");
 }
