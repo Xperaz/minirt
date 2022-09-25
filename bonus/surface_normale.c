@@ -6,7 +6,7 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 12:18:51 by aouhadou          #+#    #+#             */
-/*   Updated: 2022/09/23 13:55:35 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/24 12:28:33 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_inter	plane_normal(t_inter hold, t_objs *obj, t_CamRay *ray)
 	{
 		inter.col = obj->col;
 		inter.hit = add_vec(ray->origin, mult_vec(ray->dir, inter.t));
+		inter.norm = get_normalized(obj->dir);
 		if (dot_product(ray->dir, get_normalized(obj->dir)) < EPS)
 			inter.norm = get_normalized(mult_vec(obj->dir, -1));
 		hold = inter;

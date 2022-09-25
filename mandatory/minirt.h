@@ -6,7 +6,7 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 13:01:02 by smia              #+#    #+#             */
-/*   Updated: 2022/09/23 13:46:02 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/25 13:44:16 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,18 @@ t_vec   ray_at(t_CamRay *ray, double t);
 
 
 /* rendring */
-
+typedef struct render
+{
+	t_vars		vars;
+	img_data	img;
+	double		v;
+	double		u;
+	int			x;
+	int			y;
+	t_camera	cam;
+	t_CamRay	ray_;
+	t_vec		ray_col;
+}	t_render;
 void    ft_render(t_scene *sc);
 
 // Intersection 
@@ -221,9 +232,9 @@ void    ft_render(t_scene *sc);
 
 
 /* mlx funct end */
+int     red_button(t_vars *vars);
 int     handle_key(int key, t_vars *vars);
 void	my_mlx_pixel_put(img_data *data, int x, int y, int color);
-int     red_button(void);
 
 t_vec	        div_vect(t_vec v, double a);
 t_vec		    make_vec(double x, double y, double z);

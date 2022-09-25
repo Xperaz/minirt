@@ -6,7 +6,7 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 14:37:25 by smia              #+#    #+#             */
-/*   Updated: 2022/09/23 13:53:16 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/25 13:46:15 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ int	handle_key(int key, t_vars *vars)
 	return (0);
 }
 
-int	red_button(void)
+int	red_button(t_vars *vars)
 {
+	mlx_destroy_window(vars->mlx, vars->win);
 	exit(0);
 	return (0);
 }
