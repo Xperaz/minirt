@@ -6,11 +6,11 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 03:30:08 by smia              #+#    #+#             */
-/*   Updated: 2022/09/23 13:44:14 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:05:57 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../includes/minirt.h"
 
 static int	ft_strlcpy(char *dst, const char *src, int dstsize)
 {

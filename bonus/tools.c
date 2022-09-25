@@ -6,11 +6,11 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 08:34:13 by smia              #+#    #+#             */
-/*   Updated: 2022/09/23 13:55:49 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:07:20 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../includes/minirt.h"
 
 double	take_min(double x, double y)
 {

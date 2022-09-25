@@ -6,11 +6,11 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 21:13:09 by smia              #+#    #+#             */
-/*   Updated: 2022/09/23 12:50:45 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:05:13 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../includes/minirt.h"
 
 t_collector	*new_node(void *adr)
 {

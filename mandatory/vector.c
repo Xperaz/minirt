@@ -6,11 +6,11 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 10:38:51 by smia              #+#    #+#             */
-/*   Updated: 2022/09/23 13:48:19 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:06:09 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../includes/minirt.h"
 
 void	null_vec(t_vec *v)
 {

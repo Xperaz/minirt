@@ -6,11 +6,11 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 03:22:01 by smia              #+#    #+#             */
-/*   Updated: 2022/09/25 13:43:19 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:05:46 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../includes/minirt.h"
 
 t_vec	get_color(char *s)
 {

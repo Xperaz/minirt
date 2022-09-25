@@ -6,11 +6,11 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 10:26:22 by aouhadou          #+#    #+#             */
-/*   Updated: 2022/09/23 13:56:11 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:07:26 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../includes/minirt.h"
 
 t_vec	sub_vec(t_vec u, t_vec v)
 {

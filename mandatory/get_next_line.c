@@ -6,11 +6,11 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 18:05:50 by smia              #+#    #+#             */
-/*   Updated: 2022/09/23 12:51:03 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:05:17 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../includes/minirt.h"
 
 char	*ft_strjoin(char *s, char c)
 {

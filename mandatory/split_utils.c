@@ -6,11 +6,11 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 13:41:47 by aouhadou          #+#    #+#             */
-/*   Updated: 2022/09/23 13:44:27 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:05:53 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../includes/minirt.h"
 
 void	free_split(char **s)
 {

@@ -6,11 +6,11 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 12:18:51 by aouhadou          #+#    #+#             */
-/*   Updated: 2022/09/24 12:28:33 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:07:17 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../includes/minirt.h"
 
 t_inter	spher_normal(t_inter hold, t_objs *obj, t_CamRay *ray)
 {

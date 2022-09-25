@@ -6,11 +6,11 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 13:00:53 by smia              #+#    #+#             */
-/*   Updated: 2022/09/24 14:33:10 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/25 13:52:09 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../includes/minirt.h"
 
 void	ft_draw(t_render info, t_scene *sc)
 {

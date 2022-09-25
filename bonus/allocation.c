@@ -6,11 +6,11 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 13:12:52 by smia              #+#    #+#             */
-/*   Updated: 2022/09/23 13:52:05 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:06:27 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../includes/minirt.h"
 
 void	ft_err(char *err)
 {

@@ -6,11 +6,11 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 03:21:29 by smia              #+#    #+#             */
-/*   Updated: 2022/09/23 15:13:56 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:06:59 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../includes/minirt.h"
 
 t_light	*alloc_light(t_scene *sc)
 {

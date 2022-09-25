@@ -6,11 +6,11 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 14:37:25 by smia              #+#    #+#             */
-/*   Updated: 2022/09/24 14:29:17 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:06:53 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../includes/minirt.h"
 
 void	my_mlx_pixel_put(img_data *data, int x, int y, int color)
 {
