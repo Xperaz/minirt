@@ -6,7 +6,7 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 03:21:29 by smia              #+#    #+#             */
-/*   Updated: 2022/09/23 13:37:00 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/23 15:13:56 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,17 @@ void	parse_cone(t_scene *sc, char **tockens)
 
 	if (!tockens || !tockens[1] || !tockens[2] || !tockens[3] || !tockens[4]
 		|| !tockens[5] || tockens[6])
-		ft_err("invalid cylinder");
+		ft_err("invalid cone");
 	obj = alloc_obj(sc);
 	obj->type = CO;
 	obj->cen = get_vec(tockens[1]);
 	obj->dir = get_vec(tockens[2]);
 	if (obj->dir.x > 1 || obj->dir.y > 1 || obj->dir.z > 1)
-		ft_err("invalid orientation cylinder");
+		ft_err("invalid orientation cone");
 	if (obj->dir.x < -1 || obj->dir.y < -1 || obj->dir.z < -1)
-		ft_err("invalid orientation cylinder");
+		ft_err("invalid orientation cone");
 	obj->p.x = ft_atod(tockens[3]);
 	if (obj->p.x <= 0 && obj->p.x > 180)
-		ft_err("invalid diameter cy");
+		ft_err("invalid diameter cone");
 	obj->col = get_color(tockens[5]);
 }

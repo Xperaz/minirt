@@ -6,7 +6,7 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 14:00:32 by smia              #+#    #+#             */
-/*   Updated: 2022/09/23 12:58:43 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/25 13:48:21 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ double	inter_plane(t_CamRay *ray, t_objs *pl)
 
 	normal = get_normalized(pl->dir);
 	x = sub_vec(ray->origin, pl->cen);
-	b = dot_product(get_normalized(ray->dir), normal);
-	if (b != EPS)
+	b = dot_product(ray->dir, normal);
+	if (b != 0)
 	{
-		a = dot_product(x, normal);
+		a = dot_product(x, normal);  
 		t = -a / b;
 		if (t < EPS)
 			return (-1.0);

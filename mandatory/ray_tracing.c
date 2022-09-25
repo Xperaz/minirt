@@ -6,39 +6,50 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 13:00:53 by smia              #+#    #+#             */
-/*   Updated: 2022/09/23 13:32:53 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/25 13:43:46 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
+void	ft_draw(t_render info, t_scene *sc)
+{
+	info.y = HEIGHT - 1;
+	while (info.y >= 0)
+	{
+		info.x = 0;
+		while (info.x < WIDTH)
+		{
+			info.v = (double)info.x * 2 / WIDTH - 1;
+			info.u = (double)info.y * 2 / HEIGHT - 1;
+			info.ray_ = ray_primary(&info.cam, info.v, info.u);
+			info.ray_col = ray_color(&info.ray_, sc);
+			my_mlx_pixel_put(&info.img, info.x, HEIGHT - 1 - info.y, create_rgb(info.ray_col.x,
+							info.ray_col.y,info.ray_col.z));
+			info.x++;
+		}
+		info.y--;
+	}
+}
+
+void	image_init(t_render	*info)
+{
+	info->vars.mlx = mlx_init();
+	info->vars.win = mlx_new_window(info->vars.mlx, WIDTH, HEIGHT, "MiniRT");
+	info->img.img = mlx_new_image(info->vars.mlx, WIDTH, HEIGHT);
+	info->img.addr = mlx_get_data_addr(info->img.img, &info->img.bits_per_pixel,
+					&info->img.line_length, &info->img.endian);
+}
+
 void    ft_render(t_scene *sc)
 {
-	t_vars		vars;
-	img_data	img;
-	double		v, u;
-	t_camera	cam;
-	t_CamRay	ray_;
-	t_vec		ray_col;
-
-	cam = set_camera(sc);
-	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, WIDTH, HEIGHT, "MiniRT");
-	img.img = mlx_new_image(vars.mlx, WIDTH, HEIGHT);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-								&img.endian);
-	for (int j = HEIGHT - 1 ; j >= 0; j--)
-	{
-		for (int i = 0; i < WIDTH; i++)
-		{
-			v = (double)i * 2 / WIDTH - 1;
-			u = (double)j * 2 / HEIGHT - 1;
-			ray_ = ray_primary(&cam, v, u);
-			ray_col = ray_color(&ray_, sc);
-			my_mlx_pixel_put(&img, i, HEIGHT - 1 - j, create_rgb(ray_col.x, ray_col.y, ray_col.z));
-		}
-	}
-	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
-	mlx_key_hook(vars.win, handle_key, &vars);
-	mlx_loop(vars.mlx);
+	t_render	info;
+	
+	info.cam = set_camera(sc);
+	image_init(&info);
+	ft_draw(info, sc);
+	mlx_put_image_to_window(info.vars.mlx, info.vars.win, info.img.img, 0, 0);
+	mlx_key_hook(info.vars.win, handle_key, &info.vars);
+	mlx_hook(info.vars.win, 17, 0, red_button, &info.vars);
+	mlx_loop(info.vars.mlx);
 }
