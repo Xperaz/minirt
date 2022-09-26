@@ -15,7 +15,7 @@
 void	ft_err(char *err)
 {
 	printf("Error : %s\n", err);
-	ft_collect(&root, root);
+	ft_collect(&g_root, g_root);
 	exit(1);
 }
 
@@ -23,8 +23,8 @@ t_scene	*alloc_scence(void)
 {
 	t_scene	*sc;
 
-	root = NULL;
-	sc = ft_malloc(&root, (sizeof(t_scene)));
+	g_root = NULL;
+	sc = ft_malloc(&g_root, (sizeof(t_scene)));
 	if (!sc)
 		return (NULL);
 	sc->objs = NULL;
@@ -38,7 +38,7 @@ t_objs	*alloc_obj(t_scene *sc)
 {
 	t_objs	*new_obj;
 
-	new_obj = ft_malloc(&root, sizeof(t_objs));
+	new_obj = ft_malloc(&g_root, sizeof(t_objs));
 	if (!new_obj)
 		return (NULL);
 	null_vec(&(new_obj->col));

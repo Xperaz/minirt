@@ -6,96 +6,34 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 19:12:11 by smia              #+#    #+#             */
-/*   Updated: 2022/09/25 14:06:34 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/26 13:56:27 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
 
-int	shade(t_scene *sc, t_inter inter, t_light *light)
-{
-	t_vec		hit_light;
-	t_CamRay	sh_ray;
-	t_inter		shadow;
-	t_vec		hit_sh;
-
-	hit_light = sub_vec(light->src, inter.hit);
-	sh_ray.origin = inter.hit;
-	sh_ray.dir = get_normalized(hit_light);
-	shadow = find_inter(&sh_ray, sc);
-	hit_sh = sub_vec(shadow.hit, sh_ray.origin);
-	if (shadow.t > EPS && (module_v(hit_light) > module_v(hit_sh)))
-		return 1;
-	return 0;
-}
-
-t_vec	specular(t_scene *sc, t_inter inter, t_light *light)
-{
-	t_vec 	L;
-	t_vec 	V;
-	t_vec	R;
-	double	spec;
-	t_vec	hit_light;
-
-	hit_light = sub_vec(light->src, inter.hit);
-	L = get_normalized(hit_light);		
-	V = get_normalized(sub_vec(inter.hit, sc->cam.cen));
-	R = sub_vec(mult_vec(inter.norm, 2 * dot_product(inter.norm, L)), L);
-	spec = pow(dot_product(R,V),50) * light->ratio * 0.5;
-	return (mult_vec(light->col, spec));
-}
-
-t_vec	diffuse(t_inter inter, t_light * light)
-{
-	t_vec		hit_light;
-	double		d;
-	t_vec		diff;
-
-	hit_light = sub_vec(light->src, inter.hit);
-	d = dot_product(get_normalized(hit_light), inter.norm);
-	diff = add_coef(inter.col, light->col ,  fabs(d) * light->ratio);
-	return (diff);
-}
-
-int dark(t_scene *sc, t_light *light)
-{
-	t_inter 	k;
-	t_CamRay	ray;
-	t_vec		cam_light;
-	t_vec		obstacl;
-
-	cam_light = sub_vec(light->src, sc->cam.cen);
-	ray.origin = sc->cam.cen;
-	ray.dir = get_normalized(cam_light);
-	k = find_inter(&ray, sc);
-	obstacl = sub_vec(sc->cam.cen, k.hit);
-	if (k.t > EPS && (module_v(cam_light) > module_v(obstacl)))
-		return 1;
-	return 0;
-}
-
-t_vec	calcul_color(t_scene *sc, t_inter inter, t_vec  amb)
+t_vec	calcul_color(t_scene *sc, t_inter inter, t_vec amb)
 {
 	t_light	*light;
 	t_vec	ret;
 	t_vec	black;
 
-	black = make_vec(0,0,0);
+	black = make_vec(0, 0, 0);
 	ret = black;
 	light = sc->light;
 	while (light)
 	{
-		if (dark(sc, light)) // see if there is an obstacl between camera dir and light source
+		if (dark(sc, light))
 			ret = add_color(ret, black);
-		else 
+		else
 		{
 			if (shade(sc, inter, light))
 				ret = add_color(ret, amb);
 			else
 			{
 				ret = add_color(ret, amb);
-				ret = add_color(ret,diffuse(inter, light));
-				ret = add_color(ret,specular(sc, inter, light));
+				ret = add_color(ret, diffuse(inter, light));
+				ret = add_color(ret, specular(sc, inter, light));
 			}
 		}
 		light = light->next;

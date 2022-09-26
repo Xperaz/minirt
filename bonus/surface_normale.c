@@ -6,7 +6,7 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 12:18:51 by aouhadou          #+#    #+#             */
-/*   Updated: 2022/09/25 14:07:17 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/26 14:03:12 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_inter	plane_normal(t_inter hold, t_objs *obj, t_CamRay *ray)
 		inter.col = obj->col;
 		inter.hit = add_vec(ray->origin, mult_vec(ray->dir, inter.t));
 		inter.norm = get_normalized(obj->dir);
-		if (dot_product(ray->dir, get_normalized(obj->dir)) < EPS)
+		if (dot_product(ray->dir, obj->dir) < EPS)
 			inter.norm = get_normalized(mult_vec(obj->dir, -1));
 		hold = inter;
 	}
@@ -60,6 +60,29 @@ t_inter	cylinder_normal(t_inter hold, t_objs *obj, t_CamRay *ray)
 			+ dot_product(sub_vec(ray->origin, obj->cen), oc);
 		inter.norm = get_normalized(sub_vec(sub_vec(inter.hit, obj->cen),
 					mult_vec(oc, m)));
+		hold = inter;
+	}
+	return (hold);
+}
+
+t_inter	cone_normal(t_inter hold, t_objs *obj, t_CamRay *ray)
+{
+	t_inter	inter;
+	double	k;
+	double	m;
+	t_vec	n;
+
+	k = tan((obj->p.z / 2) * M_PI / 180.0);
+	inter.t = inter_cone(ray, obj);
+	m = dot_product(ray->dir, mult_vec(obj->dir, inter.t))
+		+ dot_product(sub_vec(ray->origin, obj->cen), obj->dir);
+	if (((hold.t > inter.t || hold.t == -1) && inter.t > EPS))
+	{
+		inter.col = obj->col;
+		inter.hit = add_vec(ray->origin, mult_vec(ray->dir, inter.t));
+		n = sub_vec(sub_vec(inter.hit, obj->cen),
+				mult_vec(obj->dir, ((1 + pow(k, 2.0))) * m));
+		inter.norm = get_normalized(n);
 		hold = inter;
 	}
 	return (hold);

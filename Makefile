@@ -6,7 +6,7 @@
 #    By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/23 10:28:09 by aouhadou          #+#    #+#              #
-#    Updated: 2022/09/25 16:11:13 by aouhadou         ###   ########.fr        #
+#    Updated: 2022/09/26 14:06:19 by aouhadou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ M_SRCS= mandatory/main.c mandatory/get_next_line.c mandatory/allocation.c\
 	mandatory/vector2.c mandatory/ray_tracing.c mandatory/parse_objects.c\
 	mandatory/Garbage_Collector.c mandatory/intersection.c mandatory/mlx_func.c\
 	mandatory/camera.c mandatory/color.c mandatory/surface_normale.c\
-	mandatory/world.c mandatory/split_utils.c
+	mandatory/world.c mandatory/split_utils.c mandatory/shading.c
 	
 B_SRCS= bonus/main.c bonus/get_next_line.c bonus/allocation.c\
  	bonus/tools.c bonus/parse_element.c bonus/parse.c\
@@ -29,7 +29,8 @@ B_SRCS= bonus/main.c bonus/get_next_line.c bonus/allocation.c\
 	bonus/vector2.c bonus/ray_tracing.c bonus/parse_objects.c\
 	bonus/Garbage_Collector.c bonus/intersection.c bonus/mlx_func.c\
 	bonus/camera.c bonus/color.c bonus/surface_normale.c\
-	bonus/world.c bonus/split_utils.c
+	bonus/world.c bonus/split_utils.c bonus/cone_intersection.c\
+	bonus/specular.c bonus/shading.c
 	
 CFLAGS= -Wall -Wextra -Werror
 CC= gcc
@@ -40,10 +41,10 @@ OBJS_B=$(B_SRCS:.c=.o)
 all: $(NAME)
 bonus: $(NAME_B)
 
-$(NAME):$(OBJS_M)
+$(NAME):$(OBJS_M) $(HEADER)
 	@$(CC) -lmlx -framework OpenGL -framework AppKit $(CFLAGS) $(OBJS_M) -o $(NAME)
 
-miniRT_bonus:$(OBJS_B)
+miniRT_bonus:$(OBJS_B) $(HEADER)
 	@$(CC) -lmlx -framework OpenGL -framework AppKit $(CFLAGS) $(OBJS_B) -o $(NAME_B)
 
 %.o:%.c

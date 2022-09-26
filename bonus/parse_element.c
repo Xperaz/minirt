@@ -6,7 +6,7 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 03:21:29 by smia              #+#    #+#             */
-/*   Updated: 2022/09/25 14:06:59 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/26 11:53:28 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	parse_cone(t_scene *sc, char **tockens)
 	t_objs	*obj;
 
 	if (!tockens || !tockens[1] || !tockens[2] || !tockens[3] || !tockens[4]
-		|| !tockens[5] || tockens[6])
+		|| !tockens[5] || !tockens[6] || tockens[7])
 		ft_err("invalid cone");
 	obj = alloc_obj(sc);
 	obj->type = CO;
@@ -89,5 +89,11 @@ void	parse_cone(t_scene *sc, char **tockens)
 	obj->p.x = ft_atod(tockens[3]);
 	if (obj->p.x <= 0 && obj->p.x > 180)
 		ft_err("invalid diameter cone");
-	obj->col = get_color(tockens[5]);
+	obj->p.y = ft_atod(tockens[4]);
+	if (obj->p.x <= 0 && obj->p.x > 180)
+		ft_err("invalid diameter cone");
+	obj->p.z = ft_atod(tockens[5]);
+	if (obj->p.x <= 0 && obj->p.x > 180)
+		ft_err("invalid diameter cone");
+	obj->col = get_color(tockens[6]);
 }

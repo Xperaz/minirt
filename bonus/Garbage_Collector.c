@@ -24,22 +24,22 @@ t_collector	*new_node(void *adr)
 	return (node);
 }
 
-t_collector	**append_adr(t_collector **root, void *adr)
+t_collector	**append_adr(t_collector **g_root, void *adr)
 {
 	t_collector	*node;
 	t_collector	*tmp;
 
 	node = new_node(adr);
-	if (!*root)
-		return (*root = node, root);
-	tmp = *root;
+	if (!*g_root)
+		return (*g_root = node, g_root);
+	tmp = *g_root;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = node;
-	return (root);
+	return (g_root);
 }
 
-void	*ft_malloc(t_collector **root, size_t size)
+void	*ft_malloc(t_collector **g_root, size_t size)
 {
 	void	*ptr;
 
@@ -47,14 +47,14 @@ void	*ft_malloc(t_collector **root, size_t size)
 	if (!ptr)
 		return (NULL);
 	else
-		return (append_adr(root, ptr), ptr);
+		return (append_adr(g_root, ptr), ptr);
 }
 
-void	ft_collect(t_collector **root, t_collector *node)
+void	ft_collect(t_collector **g_root, t_collector *node)
 {
 	if (!node)
 		return ;
-	ft_collect(root, node->next);
+	ft_collect(g_root, node->next);
 	free(node->adr);
 	free(node);
 }

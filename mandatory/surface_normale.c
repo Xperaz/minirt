@@ -6,11 +6,12 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 12:18:51 by aouhadou          #+#    #+#             */
-/*   Updated: 2022/09/25 14:06:01 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/25 18:36:13 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
+
 t_inter	spher_normal(t_inter hold, t_objs *obj, t_CamRay *ray)
 {
 	t_inter	inter;
@@ -35,8 +36,8 @@ t_inter	plane_normal(t_inter hold, t_objs *obj, t_CamRay *ray)
 	{
 		inter.col = obj->col;
 		inter.hit = add_vec(ray->origin, mult_vec(ray->dir, inter.t));
-		inter.norm = get_normalized(obj->dir);
-		if (dot_product(ray->dir, get_normalized(obj->dir)) < EPS)
+		inter.norm = obj->dir;
+		if (dot_product(ray->dir, inter.norm) > __DBL_EPSILON__)
 			inter.norm = get_normalized(mult_vec(obj->dir, -1));
 		hold = inter;
 	}

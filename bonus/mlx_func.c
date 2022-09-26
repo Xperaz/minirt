@@ -12,7 +12,7 @@
 
 #include "../includes/minirt.h"
 
-void	my_mlx_pixel_put(img_data *data, int x, int y, int color)
+void	my_mlx_pixel_put(t_img_data *data, int x, int y, int color)
 {
 	char	*dst;
 

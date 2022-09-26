@@ -6,7 +6,7 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 13:00:53 by smia              #+#    #+#             */
-/*   Updated: 2022/09/25 13:52:09 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/26 14:12:53 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	ft_draw(t_render info, t_scene *sc)
 			info.u = (double)info.y * 2 / HEIGHT - 1;
 			info.ray_ = ray_primary(&info.cam, info.v, info.u);
 			info.ray_col = ray_color(&info.ray_, sc);
-			my_mlx_pixel_put(&info.img, info.x, HEIGHT - 1 - info.y, create_rgb(info.ray_col.x,
-							info.ray_col.y,info.ray_col.z));
+			my_mlx_pixel_put(&info.img, info.x, HEIGHT - 1 - info.y,
+				create_rgb(info.ray_col.x, info.ray_col.y, info.ray_col.z));
 			info.x++;
 		}
 		info.y--;
@@ -38,13 +38,13 @@ void	image_init(t_render	*info)
 	info->vars.win = mlx_new_window(info->vars.mlx, WIDTH, HEIGHT, "MiniRT");
 	info->img.img = mlx_new_image(info->vars.mlx, WIDTH, HEIGHT);
 	info->img.addr = mlx_get_data_addr(info->img.img, &info->img.bits_per_pixel,
-					&info->img.line_length, &info->img.endian);
+			&info->img.line_length, &info->img.endian);
 }
 
-void    ft_render(t_scene *sc)
+void	ft_render(t_scene *sc)
 {
 	t_render	info;
-	
+
 	info.cam = set_camera(sc);
 	image_init(&info);
 	ft_draw(info, sc);

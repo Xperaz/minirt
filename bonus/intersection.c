@@ -6,7 +6,7 @@
 /*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 14:00:32 by smia              #+#    #+#             */
-/*   Updated: 2022/09/25 14:06:45 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/26 13:58:07 by aouhadou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ double	inter_plane(t_CamRay *ray, t_objs *pl)
 	b = dot_product(ray->dir, normal);
 	if (b != 0)
 	{
-		a = dot_product(x, normal);  
+		a = dot_product(x, normal);
 		t = -a / b;
 		if (t < EPS)
 			return (-1.0);
