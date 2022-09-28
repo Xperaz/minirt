@@ -71,17 +71,19 @@ t_inter	cone_normal(t_inter hold, t_objs *obj, t_CamRay *ray)
 	double	k;
 	double	m;
 	t_vec	n;
+	t_vec	vi;
 
 	k = tan((obj->p.z / 2) * M_PI / 180.0);
 	inter.t = inter_cone(ray, obj);
-	m = dot_product(ray->dir, mult_vec(obj->dir, inter.t))
-		+ dot_product(sub_vec(ray->origin, obj->cen), obj->dir);
+	vi = get_normalized(obj->dir);
+	m = dot_product(ray->dir, mult_vec(vi, inter.t))
+		+ dot_product(sub_vec(ray->origin, obj->cen), vi);
 	if (((hold.t > inter.t || hold.t == -1) && inter.t > EPS))
 	{
 		inter.col = obj->col;
 		inter.hit = add_vec(ray->origin, mult_vec(ray->dir, inter.t));
 		n = sub_vec(sub_vec(inter.hit, obj->cen),
-				mult_vec(obj->dir, ((1 + pow(k, 2.0))) * m));
+				mult_vec(vi, ((1 + pow(k, 2.0))) * m));
 		inter.norm = get_normalized(n);
 		hold = inter;
 	}

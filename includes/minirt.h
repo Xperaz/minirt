@@ -15,7 +15,7 @@
 
 # define WIDTH 1200
 # define HEIGHT 1200
-# define EPS 0.00000000001
+# define EPS 0.000001
 # define CY 1
 # define PL 2
 # define SP 3
@@ -106,11 +106,12 @@ int			create_rgb(int r, int g, int b);
 t_vec		add_color(t_vec col1, t_vec col2);
 t_vec		ray_color(t_CamRay *ray, t_scene *sc);
 t_vec		colorize(double r, double g, double b);
-t_vec		diffuse(t_inter inter, t_light *light);
+t_vec		diffuse(t_inter inter, t_light *light, double d);
 int			shade(t_scene *sc, t_inter inter, t_light *light);
 int			dark(t_scene *sc, t_light *light);
 
 //surface normal
+int			is_inside(t_vec ray, t_vec norm);
 t_inter		spher_normal(t_inter hold, t_objs *obj, t_CamRay *ray);
 t_inter		plane_normal(t_inter hold, t_objs *obj, t_CamRay *ray);
 t_inter		cylinder_normal(t_inter hold, t_objs *obj, t_CamRay *ray);

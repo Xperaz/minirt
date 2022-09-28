@@ -12,6 +12,13 @@
 
 #include "../includes/minirt.h"
 
+int	is_inside(t_vec ray, t_vec norm)
+{
+	if (dot_product(ray, norm) > 0)
+		return (1);
+	return (0);
+}
+
 int	shade(t_scene *sc, t_inter inter, t_light *light)
 {
 	t_vec		hit_light;
@@ -29,31 +36,10 @@ int	shade(t_scene *sc, t_inter inter, t_light *light)
 	return (0);
 }
 
-t_vec	diffuse(t_inter inter, t_light *light)
+t_vec	diffuse(t_inter inter, t_light *light, double d)
 {
-	t_vec		hit_light;
-	double		d;
-	t_vec		diff;
+	t_vec	diff;
 
-	hit_light = sub_vec(light->src, inter.hit);
-	d = dot_product(get_normalized(hit_light), inter.norm);
-	diff = add_coef(inter.col, light->col, fabs(d) * light->ratio);
+	diff = add_coef(inter.col, light->col, d * light->ratio);
 	return (diff);
-}
-
-int	dark(t_scene *sc, t_light *light)
-{
-	t_inter		k;
-	t_CamRay	ray;
-	t_vec		cam_light;
-	t_vec		obstacl;
-
-	cam_light = sub_vec(light->src, sc->cam.cen);
-	ray.origin = sc->cam.cen;
-	ray.dir = get_normalized(cam_light);
-	k = find_inter(&ray, sc);
-	obstacl = sub_vec(sc->cam.cen, k.hit);
-	if (k.t > EPS && (module_v(cam_light) > module_v(obstacl)))
-		return (1);
-	return (0);
 }

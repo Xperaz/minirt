@@ -14,25 +14,25 @@
 
 t_vec	calcul_color(t_scene *sc, t_inter inter, t_vec amb)
 {
-	t_light	*light;
-	t_vec	ret;
-	t_vec	black;
+	t_light		*light;
+	t_vec		ret;
+	t_vec		hit_light;
+	double		d;
 
-	black = make_vec(0, 0, 0);
-	ret = black;
+	ret = make_vec(0, 0, 0);
 	light = sc->light;
 	while (light)
 	{
-		if (dark(sc, light))
-			ret = add_color(ret, black);
+		if (shade(sc, inter, light))
+			ret = add_color(ret, amb);
 		else
 		{
-			if (shade(sc, inter, light))
-				ret = add_color(ret, amb);
-			else
+			hit_light = sub_vec(light->src, inter.hit);
+			d = dot_product(get_normalized(hit_light), inter.norm);
+			ret = add_color(ret, amb);
+			if (d > 0)
 			{
-				ret = add_color(ret, amb);
-				ret = add_color(ret, diffuse(inter, light));
+				ret = add_color(ret, diffuse(inter, light, d));
 				ret = add_color(ret, specular(sc, inter, light));
 			}
 		}
@@ -75,6 +75,8 @@ t_vec	ray_color(t_CamRay *ray, t_scene *sc)
 	if (inter.t > EPS)
 	{
 		amb = add_coef(inter.col, sc->amb.col, sc->amb.ratio);
+		if (is_inside(ray->dir, inter.norm))
+			inter.norm = mult_vec(inter.norm, -1);
 		px_col = calcul_color(sc, inter, amb);
 		return (px_col);
 	}

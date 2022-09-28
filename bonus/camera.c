@@ -19,7 +19,7 @@ t_camera	set_camera(t_scene *sc)
 	cam.aspect_r = (double) WIDTH / (double) HEIGHT;
 	cam.theta = sc->cam.fov * M_PI / 180.0;
 	cam.height = tan(cam.theta / 2);
-	cam.width = cam.aspect_r * cam.height;
+	cam.width = cam.height / cam.aspect_r;
 	cam.forward = sc->cam.dir;
 	cam.forward.x += EPS;
 	cam.up = get_normalized(vect_cross(cam.forward, make_vec(0.0, 1.0, 0.0)));
