@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 14:21:47 by smia              #+#    #+#             */
-/*   Updated: 2022/09/25 14:06:31 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/29 01:25:22 by smia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ t_camera	set_camera(t_scene *sc)
 {
 	t_camera	cam;
 
+	cam.orig = sc->cam.cen;
 	cam.aspect_r = (double) WIDTH / (double) HEIGHT;
 	cam.theta = sc->cam.fov * M_PI / 180.0;
 	cam.height = tan(cam.theta / 2);
-	cam.width = cam.height / cam.aspect_r;
+	cam.width = cam.height * cam.aspect_r;
 	cam.forward = sc->cam.dir;
 	cam.forward.x += EPS;
 	cam.up = get_normalized(vect_cross(cam.forward, make_vec(0.0, 1.0, 0.0)));

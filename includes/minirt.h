@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 13:01:02 by smia              #+#    #+#             */
-/*   Updated: 2022/09/26 14:16:17 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/29 00:30:04 by smia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ t_vec		ray_color(t_CamRay *ray, t_scene *sc);
 t_vec		colorize(double r, double g, double b);
 t_vec		diffuse(t_inter inter, t_light *light, double d);
 int			shade(t_scene *sc, t_inter inter, t_light *light);
-int			dark(t_scene *sc, t_light *light);
 
 //surface normal
 int			is_inside(t_vec ray, t_vec norm);

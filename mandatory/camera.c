@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 14:21:47 by smia              #+#    #+#             */
-/*   Updated: 2022/09/25 13:52:23 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/28 23:56:01 by smia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ t_camera	set_camera(t_scene *sc)
 {
 	t_camera	cam;
 
+	cam.orig = sc->cam.cen;
 	cam.aspect_r = (double) WIDTH / (double) HEIGHT;
 	cam.theta = sc->cam.fov * M_PI / 180.0;
 	cam.height = tan(cam.theta / 2);

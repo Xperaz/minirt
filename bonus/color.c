@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aouhadou <aouhadou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smia <smia@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 19:12:11 by smia              #+#    #+#             */
-/*   Updated: 2022/09/26 13:56:27 by aouhadou         ###   ########.fr       */
+/*   Updated: 2022/09/28 23:57:30 by smia             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ t_vec	calcul_color(t_scene *sc, t_inter inter, t_vec amb)
 
 	ret = make_vec(0, 0, 0);
 	light = sc->light;
+	if (!light)
+		return (amb);
 	while (light)
 	{
 		if (shade(sc, inter, light))
@@ -31,10 +33,8 @@ t_vec	calcul_color(t_scene *sc, t_inter inter, t_vec amb)
 			d = dot_product(get_normalized(hit_light), inter.norm);
 			ret = add_color(ret, amb);
 			if (d > 0)
-			{
-				ret = add_color(ret, diffuse(inter, light, d));
-				ret = add_color(ret, specular(sc, inter, light));
-			}
+				ret = add_color(add_color(ret, diffuse(inter, light, d)),
+						specular(sc, inter, light));
 		}
 		light = light->next;
 	}
