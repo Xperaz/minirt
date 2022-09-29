@@ -44,7 +44,7 @@ bonus: $(NAME_B)
 $(NAME):$(OBJS_M) $(HEADER)
 	@$(CC) -lmlx -framework OpenGL -framework AppKit $(CFLAGS) $(OBJS_M) -o $(NAME)
 
-miniRT_bonus:$(OBJS_B) $(HEADER)
+$(NAME_B):$(OBJS_B) $(HEADER)
 	@$(CC) -lmlx -framework OpenGL -framework AppKit $(CFLAGS) $(OBJS_B) -o $(NAME_B)
 
 %.o:%.c
@@ -54,9 +54,10 @@ clean :
 	@rm -rf $(OBJS_M) $(OBJS_B)
 
 fclean : clean
-	@rm -rf $(NAME) miniRT_bonus
+	@rm -rf $(NAME) $(NAME_B)
 
 
-re : fclean all clean
+re : fclean $(NAME) clean
+re_b : fclean $(NAME_B) clean
 
-.PHONY: all $(NAME) miniRT_bonus clean fclean re
+.PHONY: all $(NAME) $(NAME_B) clean fclean re
