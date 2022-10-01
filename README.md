@@ -4,22 +4,23 @@ A minimal raytracing engine wrote in C and MiniLibX.<br><br>
 <img src="https://github.com/Xperaz/minirt/blob/master/img/Screen%20Shot%202022-09-30%20at%209.40.15%20PM.png">
 ## Index
 
-* [Description](#Description)
-* [What is ray tracing?](#What is ray tracing?n)
-* [Installation](#Raytracing)
-* [Definitions](#Definitions)
+* [Description](#description)
+* [Raytracing](#raytracing)
+* [Installation](#installation)
+* [Definitions](#definitions)
 * [Images](#images)
-* [Ressources](#Ressources)
+* [Ressources](#ressources)
 
-##Description
+## Description
 Summary: This project is an introduction to the beautiful world of Raytracing.
 the miniRT is my first ray tracer coded in C, normed and humble but
 functionnal.
 
-##What is ray tracing?
+## Raytracing
 Ray tracing is a rendering technique that can produce incredibly realistic lighting effects.
 Essentially, an algorithm can trace the path of light, 
-and then simulate the way that the light interacts with the virtual objects it ultimately hits in the computer-generated world. 
+and then simulate the way that the light interacts with the virtual objects it ultimately hits in the computer-generated world.
+<img src="https://developer.nvidia.com/sites/default/files/pictures/2018/RayTracing/ray-tracing-image-1.jpg">
 
 ## Installation
 1. Clone the repo:
