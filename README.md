@@ -23,6 +23,7 @@ and then simulate the way that the light interacts with the virtual objects it u
 <img src="https://developer.nvidia.com/sites/default/files/pictures/2018/RayTracing/ray-tracing-image-1.jpg">
 
 ## Installation
+Only for macOs. 
 1. Clone the repo:
 ```
 https://github.com/Xperaz/minirt.git
