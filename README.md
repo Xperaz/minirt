@@ -24,7 +24,7 @@ and then simulate the way that the light interacts with the virtual objects it u
 
 ## Installation
 The scene must be correctly formatted.<br>
-This project is using the ``Minilibx`` using the Metal framework and therefore should work only on macOS 10.13+.<br>
+This project is using the ``Minilibx`` (Minilibx is tiny graphics library created by 42 school) using the Metal framework and therefore should work only on macOS 10.13+.<br>
 You should follow [this guide](https://github.com/ilkou/minilibx) if you want to compile it on Linux.
 
 1. Clone the repo:
