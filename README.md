@@ -31,11 +31,14 @@ You should follow [this guide](https://github.com/ilkou/minilibx) if you want to
 ```
 https://github.com/Xperaz/minirt.git
 ```
-2. `cd` into it and `make bonus` to compile it:
+2. `cd` into it and run `make bonus` to compile it:
 ```
 cd minirt && make bonus
 ```
-3. Now `./miniRT_bonus ./maps/aladin_room.rt`
+3. Now try some tests:
+```
+./miniRT_bonus ./maps/aladin_room.rt
+```
 
 There are some scenes in the `maps` folder that showcase minirt.
 
