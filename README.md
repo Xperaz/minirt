@@ -1,5 +1,5 @@
 # miniRT
-Project at [1337](https://1337.ma).
+Project at [1337](https://1337.ma/en/).
 A minimal raytracing engine wrote in C and MiniLibX.<br><br>
 <img src="https://github.com/Xperaz/minirt/blob/master/img/Screen%20Shot%202022-09-30%20at%209.40.15%20PM.png">
 ## Index
