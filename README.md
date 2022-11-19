@@ -80,7 +80,7 @@ Cone:	`{position} {orientation} {diameter} {height} {angle} {color}`
 * A vector with the the x,y,z axis in the range [-1,1].
 * The cone diameter.
 * The cone height.
-* is the tangent of half angle of the cone
+* the tangent of half angle of the cone.
 * R,G,B colors in range [0-255].
 
 Example maps/columns.rt file:
